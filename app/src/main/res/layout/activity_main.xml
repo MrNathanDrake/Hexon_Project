@@ -31,4 +31,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingTop="8dp" />
+
+    <include
+        android:id="@+id/dashNavigation"
+        layout="@layout/bottom_navigation" />
+
 </LinearLayout>

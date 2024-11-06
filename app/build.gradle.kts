@@ -55,4 +55,13 @@ dependencies {
     // Glide 依赖
     implementation(libs.glide)
     implementation(libs.glide.compiler)
+
+    // Lifecycle dependencies
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+
+    // ViewModel dependencies
+    implementation("androidx.activity:activity-ktx:1.4.0")
 }

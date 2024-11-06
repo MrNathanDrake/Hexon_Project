@@ -1,4 +1,4 @@
-package com.example.cmpt362_project
+package com.example.cmpt362_project.property
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

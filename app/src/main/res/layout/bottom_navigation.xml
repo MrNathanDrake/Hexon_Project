@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomNavigationLayout"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent" >
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/dark_bg"
+        app:labelVisibilityMode="labeled"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:id="@+id/navDashboardLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navDashboardBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    app:srcCompat="@drawable/baseline_dashboard_24" />
+
+                <TextView
+                    android:id="@+id/navDashboardText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Dashboard"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navAddLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navAddBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    app:srcCompat="@drawable/baseline_add_24" />
+
+                <TextView
+                    android:id="@+id/navAddText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Add Property"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navInboxLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navInboxBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    app:srcCompat="@drawable/baseline_inbox_24" />
+
+                <TextView
+                    android:id="@+id/navInboxText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Inbox"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/navProfileLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.2"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/navProfileBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    app:srcCompat="@drawable/baseline_person_24" />
+
+                <TextView
+                    android:id="@+id/navProfileText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Profile"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

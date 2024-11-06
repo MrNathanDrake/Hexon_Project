@@ -1,4 +1,4 @@
-package com.example.cmpt362_project
+package com.example.cmpt362_project.property
 
 data class Property(
     val id: Int,
