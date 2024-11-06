@@ -27,6 +27,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         })
 
+        // sign in click
         binding.textView.setOnClickListener {
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)

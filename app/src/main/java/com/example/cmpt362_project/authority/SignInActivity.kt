@@ -33,11 +33,13 @@ class SignInActivity : AppCompatActivity() {
             }
         })
 
+        // sign-in button click
         binding.textView.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
 
+        // set up sign in button, retrieves the input and pass it to the authViewModel
         binding.button.setOnClickListener {
             val email = binding.emailEt.text.toString()
             val pass = binding.passET.text.toString()
@@ -45,11 +47,10 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+    // navigates to main activity
     private fun navigateToMain() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
-
-
 }

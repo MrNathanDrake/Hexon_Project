@@ -31,7 +31,7 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    // 注册方法
+    // sign up function
     fun signUp(email: String, password: String, confirmPassword: String) {
         if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             _authStatus.value = AuthStatus.Error("Empty Fields Are Not Allowed!")
@@ -68,7 +68,7 @@ class AuthViewModel : ViewModel() {
 
 // 认证状态封装类
 sealed class AuthStatus {
-    object Idle : AuthStatus()                // 初始状态
-    object Success : AuthStatus()             // 成功状态
-    data class Error(val message: String) : AuthStatus()  // 错误状态
+    object Idle : AuthStatus()                // 初始状态 (initial or neutral state)
+    object Success : AuthStatus()             // 成功状态 (Successful operation state)
+    data class Error(val message: String) : AuthStatus()  // 错误状态 (Error state with a message)
 }
