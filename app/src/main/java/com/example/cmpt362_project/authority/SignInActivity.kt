@@ -50,4 +50,6 @@ class SignInActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.cmpt362_project.authority
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -62,6 +63,7 @@ class AuthViewModel : ViewModel() {
     fun clearStatus() {
         _authStatus.value = AuthStatus.Idle
     }
+
 }
 
 // 认证状态封装类
