@@ -14,6 +14,9 @@ class AddPropertyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_property)
 
+        binding = ActivityAddPropertyBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         binding.nextStepButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
