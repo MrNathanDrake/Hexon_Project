@@ -4,4 +4,12 @@
     <string name="add_property">New Property</string>
     <string name="inbox">Inbox</string>
     <string name="profile">Profile</string>
+
+    <string-array name="property_status_options">
+        <item>Active</item>
+        <item>Rented</item>
+        <item>Unlisted</item>
+        <item>Archived</item>
+    </string-array>
+    <string name="status_prompt">Select Status</string>
 </resources>

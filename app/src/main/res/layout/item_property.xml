@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,7 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
 
         <!-- 图片 -->
         <ImageView
@@ -17,63 +19,111 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
-             />
+            />
 
+        <!-- 垂直布局，用于地址、价格和按钮 -->
+
+        <!-- 水平布局，用于下拉框 -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="8dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="3dp">
 
-            <!-- 地址 -->
-            <TextView
-                android:id="@+id/propertyAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Property Address"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <!-- 价格 -->
-            <TextView
-                android:id="@+id/propertyPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CAD 0 / month"
-                android:textSize="14sp" />
-
-            <!-- 操作按钮 -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="4dp">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:orientation="vertical"
+                android:paddingStart="8dp"
+                android:paddingLeft="2dp">
 
-                <!-- 分享按钮 -->
-                <ImageButton
-                    android:id="@+id/shareButton"
+                <!-- 地址 -->
+                <TextView
+                    android:id="@+id/propertyAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Property Address"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- 价格 -->
+                <TextView
+                    android:id="@+id/propertyPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="CAD 0 / month"
+                    android:textSize="14sp" />
 
-                    android:contentDescription="Share" />
-
-                <!-- 编辑按钮 -->
-                <ImageButton
-                    android:id="@+id/editButton"
+                <!-- 操作按钮 -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp"
+                    android:paddingTop="4dp">
 
-                    android:contentDescription="Edit" />
+                    <!-- 编辑按钮替换为 ImageView -->
+                    <ImageView
+                        android:id="@+id/craigslist"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
+                        android:src="@drawable/craigslist"
+                        android:layout_marginRight="10dp" />
 
-                <!-- 删除按钮 -->
-                <ImageButton
-                    android:id="@+id/deleteButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <!-- 删除按钮替换为 ImageView -->
+                    <ImageView
+                        android:id="@+id/facebook"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/facebook" />
 
-                    android:contentDescription="Delete" />
+                </LinearLayout>
             </LinearLayout>
+
+            <!-- 用于包裹 Spinner 的 LinearLayout -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.5"
+                android:orientation="vertical">
+
+                <!-- 下拉框 -->
+                <Spinner
+                    android:id="@+id/propertyStatusSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/property_status_options"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/spinner_border"
+                    android:prompt="@string/status_prompt"
+                    style="@style/CustomSpinnerStyle" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:paddingTop="4dp">
+
+                    <!-- 编辑按钮 -->
+                    <ImageButton
+                        android:id="@+id/editButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Edit" />
+
+                    <!-- 删除按钮 -->
+                    <ImageButton
+                        android:id="@+id/deleteButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="Delete" />
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

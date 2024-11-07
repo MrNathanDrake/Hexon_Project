@@ -8,4 +8,8 @@
     <color name="light_gray">#FFEDEDED</color>
     <color name="gray">#FF918D8D</color>
     <color name="dark_gray">#FF555454</color>
+    <color name="default_spinner_color">#FFFFFF</color>
+    <color name="green">#006400</color>
+    <color name="orange">#FF8C00</color>
+    <color name="blue">#0000FF</color>
 </resources>
