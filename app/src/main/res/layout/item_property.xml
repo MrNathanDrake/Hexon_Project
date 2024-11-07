@@ -66,16 +66,16 @@
                     <!-- 编辑按钮替换为 ImageView -->
                     <ImageView
                         android:id="@+id/craigslist"
-                        android:layout_width="19dp"
-                        android:layout_height="19dp"
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
                         android:src="@drawable/craigslist"
                         android:layout_marginRight="10dp" />
 
                     <!-- 删除按钮替换为 ImageView -->
                     <ImageView
                         android:id="@+id/facebook"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@drawable/facebook" />
 
                 </LinearLayout>
@@ -110,16 +110,21 @@
                     <!-- 编辑按钮 -->
                     <ImageButton
                         android:id="@+id/editButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="Edit" />
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="Edit"
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:background="?android:selectableItemBackground"
+                        android:layout_marginEnd="10dp"/>
 
                     <!-- 删除按钮 -->
                     <ImageButton
                         android:id="@+id/deleteButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="Delete" />
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="Delete"
+                        android:src="@android:drawable/ic_menu_delete"
+                        android:background="?android:selectableItemBackground"/>
                 </LinearLayout>
             </LinearLayout>
 
