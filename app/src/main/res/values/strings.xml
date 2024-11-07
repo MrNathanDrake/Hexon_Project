@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">cmpt362_project</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="add_property">New Property</string>
+    <string name="inbox">Inbox</string>
+    <string name="profile">Profile</string>
 </resources>
