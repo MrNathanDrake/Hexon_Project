@@ -6,15 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cmpt362_project.R
 
-class PropertyAdapter(private val properties: List<Property>) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
+class PropertyAdapter(
+    private var properties: List<Property>,
+    private val onDeleteClick: (Property) -> Unit // Delete callback
+) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
+
+    fun updateProperties(newProperties: List<Property>) {
+        properties = newProperties
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_property, parent, false)
@@ -23,14 +33,16 @@ class PropertyAdapter(private val properties: List<Property>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
         val property = properties[position]
-        holder.bind(property)
+        holder.bind(property) // Bind the property to the view holder
     }
 
     override fun getItemCount() = properties.size
 
-    class PropertyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    // Inner class to access 'onDeleteClick' directly
+    inner class PropertyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val propertyImage: ImageView = itemView.findViewById(R.id.propertyImage)
         private val propertyStatusSpinner: Spinner = itemView.findViewById(R.id.propertyStatusSpinner)
+        private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
 
         fun bind(property: Property) {
             Glide.with(itemView.context)
@@ -38,33 +50,32 @@ class PropertyAdapter(private val properties: List<Property>) : RecyclerView.Ada
                 .error(R.drawable.default_image)
                 .into(propertyImage)
 
+            // Set delete button click listener
+            deleteButton.setOnClickListener {
+                onDeleteClick(property) // Access 'onDeleteClick' directly
+            }
+
             val context = itemView.context
             val statusOptions = context.resources.getStringArray(R.array.property_status_options)
 
-            // 自定义 ArrayAdapter 以设置选中项的文本颜色
+            // Custom ArrayAdapter for setting selected text color
             val adapter = object : ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, statusOptions) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val view = super.getView(position, convertView, parent) as TextView
-                    view.setTextColor(ContextCompat.getColor(context, R.color.black)) // 未选中时的默认颜色为黑色
+                    view.setTextColor(ContextCompat.getColor(context, R.color.black)) // Default color when not selected
                     return view
                 }
 
                 override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val view = super.getDropDownView(position, convertView, parent) as TextView
-                    when (statusOptions[position]) {
-                        "Active" -> {
-                            view.setTextColor(ContextCompat.getColor(context, R.color.green)) // 绿色文本
+                    view.setTextColor(
+                        when (statusOptions[position]) {
+                            "Active" -> ContextCompat.getColor(context, R.color.green)
+                            "Archived" -> ContextCompat.getColor(context, R.color.orange)
+                            "Unlisted" -> ContextCompat.getColor(context, R.color.blue)
+                            else -> ContextCompat.getColor(context, R.color.black)
                         }
-                        "Archived" -> {
-                            view.setTextColor(ContextCompat.getColor(context, R.color.orange)) // 橙色文本
-                        }
-                        "Unlisted" -> {
-                            view.setTextColor(ContextCompat.getColor(context, R.color.blue)) // 蓝色文本
-                        }
-                        else -> {
-                            view.setTextColor(ContextCompat.getColor(context, R.color.black)) // 默认黑色文本
-                        }
-                    }
+                    )
                     return view
                 }
             }
@@ -72,30 +83,31 @@ class PropertyAdapter(private val properties: List<Property>) : RecyclerView.Ada
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             propertyStatusSpinner.adapter = adapter
 
-            // 初始化 Spinner 的默认选项
+            // Initialize Spinner selection based on status
             val initialStatus = "Active"
             val statusIndex = statusOptions.indexOf(initialStatus)
             if (statusIndex != -1) {
                 propertyStatusSpinner.setSelection(statusIndex)
             }
 
-            // 根据选中项动态更改字体颜色
+            // Dynamically change text color based on selected item
             propertyStatusSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     val textView = view as? TextView
-                    when (statusOptions[position]) {
-                        "Active" -> textView?.setTextColor(ContextCompat.getColor(context, R.color.green))
-                        "Archived" -> textView?.setTextColor(ContextCompat.getColor(context, R.color.orange))
-                        "Unlisted" -> textView?.setTextColor(ContextCompat.getColor(context, R.color.blue))
-                        else -> textView?.setTextColor(ContextCompat.getColor(context, R.color.black))
-                    }
+                    textView?.setTextColor(
+                        when (statusOptions[position]) {
+                            "Active" -> ContextCompat.getColor(context, R.color.green)
+                            "Archived" -> ContextCompat.getColor(context, R.color.orange)
+                            "Unlisted" -> ContextCompat.getColor(context, R.color.blue)
+                            else -> ContextCompat.getColor(context, R.color.black)
+                        }
+                    )
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             })
 
-            // 设置点击事件跳转到 PropertyDetailsActivity
+            // Set item click listener to open PropertyDetailsActivity
             itemView.setOnClickListener {
                 val intent = Intent(context, PropertyDetailsActivity::class.java).apply {
                     putExtra("property_id", property.id)

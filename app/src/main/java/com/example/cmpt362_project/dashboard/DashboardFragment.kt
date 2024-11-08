@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cmpt362_project.R
 import com.example.cmpt362_project.databinding.FragmentDashboardBinding
+import com.example.cmpt362_project.property.Property
 import com.example.cmpt362_project.property.PropertyAdapter
 import com.example.cmpt362_project.property.PropertyViewModel
 
@@ -36,14 +38,15 @@ class DashboardFragment : Fragment() {
         val root: View = binding.root
 
         // Initialize RecyclerView and Adapter
-        propertyAdapter = PropertyAdapter(emptyList())
+        propertyAdapter = PropertyAdapter(emptyList()) { property ->
+            deleteDialog(property)
+        }
         binding.propertyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.propertyRecyclerView.adapter = propertyAdapter
 
         // Observe the properties data in ViewModel
         propertyViewModel.properties.observe(viewLifecycleOwner) { properties ->
-            propertyAdapter = PropertyAdapter(properties)
-            binding.propertyRecyclerView.adapter = propertyAdapter
+            propertyAdapter.updateProperties(properties)
         }
 
         // Implement search functionality
@@ -58,6 +61,23 @@ class DashboardFragment : Fragment() {
         })
 
         return root
+    }
+
+    private fun deleteDialog(property: Property) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Delete Property")
+        builder.setMessage("Are you sure to delete this property?")
+
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            propertyViewModel.deleteProperty(property)
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
     }
 
     override fun onDestroyView() {
