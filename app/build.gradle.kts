@@ -53,7 +53,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation ("com.tbuonomo:dotsindicator:4.3")
+    implementation (libs.dotsindicator)
 
 
     // Glide 依赖

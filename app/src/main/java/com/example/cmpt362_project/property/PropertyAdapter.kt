@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,7 +19,8 @@ import com.example.cmpt362_project.R
 
 class PropertyAdapter(
     private var properties: List<Property>,
-    private val onDeleteClick: (Property) -> Unit // Delete callback
+    private val onDeleteClick: (Property) -> Unit, // Delete callback
+    private val onStatusChange: (Property, String) -> Unit  // status change callback
 ) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
 
     fun updateProperties(newProperties: List<Property>) {
@@ -84,17 +86,17 @@ class PropertyAdapter(
             propertyStatusSpinner.adapter = adapter
 
             // Initialize Spinner selection based on status
-            val initialStatus = "Active"
-            val statusIndex = statusOptions.indexOf(initialStatus)
-            if (statusIndex != -1) {
-                propertyStatusSpinner.setSelection(statusIndex)
+            val currentStatusIndex = statusOptions.indexOf(property.status)
+            if (currentStatusIndex != -1) {
+                propertyStatusSpinner.setSelection(currentStatusIndex)
             }
 
             // Dynamically change text color based on selected item
             propertyStatusSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val textView = view as? TextView
-                    textView?.setTextColor(
+                    val selectedStatus = statusOptions[position]
+
+                    (view as? TextView)?.setTextColor(
                         when (statusOptions[position]) {
                             "Active" -> ContextCompat.getColor(context, R.color.green)
                             "Archived" -> ContextCompat.getColor(context, R.color.orange)
@@ -102,6 +104,11 @@ class PropertyAdapter(
                             else -> ContextCompat.getColor(context, R.color.black)
                         }
                     )
+
+                    // update the status if it has changed
+                    if (selectedStatus != property.status) {
+                        onStatusChange(property, selectedStatus)
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}

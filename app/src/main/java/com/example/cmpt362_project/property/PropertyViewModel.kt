@@ -27,15 +27,20 @@ class PropertyViewModel : ViewModel() {
         _properties.value = allProperties
     }
 
-    fun searchProperties(query: String) {
-        _properties.value = if (query.isEmpty()) {
-            // 当查询为空时，显示所有数据
-            allProperties
-        } else {
-            // 否则，过滤包含查询内容的数据
-            allProperties.filter {
-                it.address.contains(query, ignoreCase = true)
-            }
+    fun searchProperties(query: String, filterStatus: String = "All") {
+        val filteredList = allProperties.filter { property ->
+            val matchQuery = property.address.contains(query, ignoreCase = true)
+            val matchStatus = filterStatus == "All" || property.status == filterStatus
+            matchQuery && matchStatus
+        }
+        _properties.value = filteredList
+    }
+
+    fun updatePropertyStatus(property: Property, newStatus: String) {
+        val index = allProperties.indexOfFirst { it.id == property.id }
+        if (index != -1) {
+            allProperties[index] = allProperties[index].copy(status = newStatus)
+            _properties.value = allProperties
         }
     }
 }

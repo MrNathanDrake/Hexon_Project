@@ -4,5 +4,6 @@ data class Property(
     val id: Int,
     val address: String,
     val price: String,
-    val imageUrl: String
+    val imageUrl: String,
+    var status: String = "Active"
 )

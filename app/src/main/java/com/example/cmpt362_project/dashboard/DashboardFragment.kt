@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -38,9 +39,13 @@ class DashboardFragment : Fragment() {
         val root: View = binding.root
 
         // Initialize RecyclerView and Adapter
-        propertyAdapter = PropertyAdapter(emptyList()) { property ->
-            deleteDialog(property)
-        }
+        propertyAdapter = PropertyAdapter(
+            properties = emptyList(),
+            onDeleteClick = { property -> deleteDialog(property)},
+            onStatusChange = { property, newStatus ->
+                propertyViewModel.updatePropertyStatus(property, newStatus)
+            }
+        )
         binding.propertyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.propertyRecyclerView.adapter = propertyAdapter
 
@@ -59,6 +64,17 @@ class DashboardFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        // Implement filter functionality
+        binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                val query = binding.searchEditText.text.toString()
+                val filter = parent?.getItemAtPosition(position).toString()
+                propertyViewModel.searchProperties(query, filter)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
         return root
     }
