@@ -12,4 +12,28 @@
         <item>Archived</item>
     </string-array>
     <string name="status_prompt">Select Status</string>
+
+    <string-array name="provinces">
+        <item>Alberta</item>
+        <item>British Columbia</item>
+        <item>Manitoba</item>
+        <item>New Brunswick</item>
+        <item>Newfoundland and Labrador</item>
+        <item>Nova Scotia</item>
+        <item>Ontario</item>
+        <item>Prince Edward Island</item>
+        <item>Quebec</item>
+        <item>Saskatchewan</item>
+    </string-array>
+
+    <string name="postal">Ex. V5A 1S6</string>
+    <string name="available_date">Available Date</string>
+    <string name="square_f">Square Footage</string>
+    <string name="add_info">Additional Information</string>
+    <string name="pets">Pets</string>
+    <string name="ac">A/C</string>
+    <string name="FH">Floor Heating</string>
+    <string name="parking">Parking</string>
+    <string name="Furniture">Basic Furniture</string>
+    <string name="ev">EV charger</string>
 </resources>

@@ -76,6 +76,9 @@ class DashboardFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
+        // implement map button
+//        binding.
+
         return root
     }
 
