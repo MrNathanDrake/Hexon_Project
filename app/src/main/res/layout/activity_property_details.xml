@@ -1,72 +1,395 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     tools:context=".property.PropertyDetailsActivity">
 
-    <!-- Back button -->
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- ViewPager for scrolling images -->
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/propertyImageViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/backButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Dots indicator -->
-    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-        android:id="@+id/dotsIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:dotsColor="@color/gray"
-        app:selectedDotColor="@color/purple"
-        app:dotsSize="6dp"
-        app:dotsSpacing="4dp"
-        app:layout_constraintTop_toBottomOf="@id/propertyImageViewPager"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Property details section -->
-    <LinearLayout
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/dotsIndicator"
+        android:background="?attr/colorSurface"
+        android:layout_marginTop="25dp"
+        android:theme="@style/AppTheme"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="6dp">
 
-        <TextView
-            android:id="@+id/propertyAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Property Address"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="8dp"
+            android:layout_gravity="start|center_vertical"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/back"
+            android:layout_marginTop="5dp"
+            android:contentDescription="Back" />
 
-        <TextView
-            android:id="@+id/propertyPrice"
+        <Button
+            android:id="@+id/editButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Price"
+            android:layout_height="40dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="4dp"
+            android:text="Edit"
             android:textSize="16sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:background="@drawable/button_border_black"
+            android:clickable="true"
+            android:focusable="true"/>
+    </androidx.appcompat.widget.Toolbar>
 
-        <!-- Add more details as necessary -->
-    </LinearLayout>
+    <!-- ScrollView for the rest of the content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true"
+        android:padding="3dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ViewPager for scrolling images -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/propertyImageViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_border_black"/>
+
+            <!-- Dots indicator -->
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dotsIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:dotsColor="@color/gray"
+                app:selectedDotColor="@color/purple"
+                app:dotsSize="6dp"
+                app:dotsSpacing="4dp"
+                android:layout_gravity="center_horizontal" />
+
+            <!-- Property details section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/propertyAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Simon Fraser University"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/propertyPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$4,500/month"
+                    android:textSize="20sp"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/propertyType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entire Apartment"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/BasicInfoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Basic info"
+                android:paddingLeft="17dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="10dp"
+                android:padding="8dp"
+                android:background="#EFEFEF">
+
+                <!-- Beds -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginRight="2dp"
+                        android:src="@drawable/ic_bed" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2 Beds"
+                        android:textSize="16sp"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <!-- Baths -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_bath"
+                        android:layout_marginRight="2dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2 Baths"
+                        android:textSize="16sp"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <!-- Sqft -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_sqft"
+                        android:layout_marginRight="2dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="976 ft²"
+                        android:textSize="16sp"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/amenitiesTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amenities"
+                android:paddingLeft="17dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_margin="10dp"
+                android:background="#EFEFEF">
+
+                <!-- First Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3"
+                    android:layout_marginBottom="8dp">
+
+                    <!-- Pets -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/yes"
+                            android:layout_marginEnd="3dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pets"
+                            android:textSize="14sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <!-- Air Condition -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/yes"
+                            android:layout_marginEnd="3dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Air Condition"
+                            android:textSize="14sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <!-- Parking -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/yes"
+                            android:layout_marginEnd="3dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Parking"
+                            android:textSize="14sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Second Row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <!-- Furnished -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/yes"
+                            android:layout_marginEnd="3dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Furnished"
+                            android:textSize="14sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <!-- EV Charger -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/yes"
+                            android:layout_marginEnd="3dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EV Charger"
+                            android:textSize="14sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <!-- Heating -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="5dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/yes"
+                            android:layout_marginEnd="3dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Heating"
+                            android:textSize="14sp"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/DescriptionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:paddingLeft="17dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/propertyDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Live upscale, live sustainably. Affordable, contemporary, and offering beautiful views, Mainstreet’s suites in the Abbey Tower of the London Complex at Heritage Station are located in a high-rise condominium complex just south of Downtown where Macleod Trail and Heritage Drive meet, putting you in the heart of the action just outside the heart of the city. Suites feature private balconies with gas connection lines, open-concept living spaces with vaulted ceilings, and large windows to enhance your view and provide ample exposure to natural light while also reducing your carbon footprint and energy bill. Kitchens feature modern appliances and elegant designs."
+                android:textSize="15sp"
+                android:padding="10dp"
+                android:lineSpacingExtra="4dp"
+                android:textColor="@color/black"
+                android:background="#EFEFEF"/>
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

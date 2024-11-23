@@ -1,10 +1,13 @@
 package com.example.cmpt362_project.property
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.example.cmpt362_project.AddPropertyActivity
 import com.example.cmpt362_project.R
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
@@ -18,6 +21,14 @@ class PropertyDetailsActivity : AppCompatActivity() {
         val backButton: ImageButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
             finish() // Closes the activity and goes back
+        }
+
+        // Edit button functionality
+        val editButton: Button = findViewById(R.id.editButton)
+        editButton.setOnClickListener {
+            // Navigate to AddPropertyActivity
+            val intent = Intent(this, AddPropertyActivity::class.java)
+            startActivity(intent)
         }
 
         // Retrieve property data from the intent
