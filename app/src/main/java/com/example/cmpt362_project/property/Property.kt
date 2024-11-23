@@ -5,5 +5,7 @@ data class Property(
     val address: String,
     val price: String,
     val imageUrl: String,
+    val latitude: Double?,
+    val longitude: Double?,
     var status: String = "Active"
 )

@@ -6,8 +6,18 @@ import androidx.lifecycle.ViewModel
 
 class PropertyViewModel : ViewModel() {
     private val allProperties = mutableListOf(
-        Property(1, "422 Deer View Avenue", "CAD 3550 / month", "https://example.com/image1.jpg"),
-        Property(2, "2550 Pateseabc Avenue", "CAD 2 / month", "https://example.com/image2.jpg")
+        Property(1,
+            "422 Deer View Avenue",
+            "CAD 3550 / month",
+            "https://example.com/image1.jpg",
+            latitude = 49.277748,
+            longitude = -122.909050),
+        Property(2,
+            "2550 Pateseabc Avenue",
+            "CAD 2 / month",
+            "https://example.com/image2.jpg",
+            latitude = 49.267941,
+            longitude = -123.247360)
     )
 
     private val _properties = MutableLiveData<List<Property>>()

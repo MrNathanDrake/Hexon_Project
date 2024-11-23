@@ -1,5 +1,6 @@
 package com.example.cmpt362_project.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,6 +22,7 @@ import com.example.cmpt362_project.databinding.FragmentDashboardBinding
 import com.example.cmpt362_project.property.Property
 import com.example.cmpt362_project.property.PropertyAdapter
 import com.example.cmpt362_project.property.PropertyViewModel
+import com.google.android.gms.maps.SupportMapFragment
 
 class DashboardFragment : Fragment() {
 
@@ -77,7 +79,19 @@ class DashboardFragment : Fragment() {
         }
 
         // implement map button
-//        binding.
+        binding.mapbutton.setOnClickListener {
+            val properties = propertyViewModel.properties.value ?: emptyList()
+
+            val locations = properties.mapNotNull { property ->
+                if (property.latitude != null && property.longitude != null) {
+                    LocationData(property.latitude, property.longitude, property.address)
+                } else null
+            }
+
+            val intent = Intent(requireContext(), Map::class.java)
+            intent.putExtra("locations", ArrayList(locations))
+            startActivity(intent)
+        }
 
         return root
     }

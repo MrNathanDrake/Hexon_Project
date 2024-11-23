@@ -38,6 +38,30 @@
         android:gravity="center">
 
         <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_design"
+            android:padding="8dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_marginEnd="16dp"
+            android:spinnerMode="dropdown" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/mapbutton"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/spinner_design"
+            android:gravity="center"
+            android:padding="0dp"
+            android:text="Map"
+            android:textColor="@color/black"
+            android:textAlignment="center" />
+
+        <Spinner
             android:id="@+id/filterSpinner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -47,29 +71,7 @@
             android:gravity="center"
             android:textAlignment="center"
             android:padding="8dp"
-            android:layout_marginEnd="16dp"
             android:popupBackground="@color/white"
-            android:spinnerMode="dropdown" />
-
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/spinner_design"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            android:spinnerMode="dropdown" />
-
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/spinner_design"
-            android:padding="8dp"
-            android:textAlignment="center"
-            android:gravity="center"
             android:spinnerMode="dropdown" />
 
     </LinearLayout>
