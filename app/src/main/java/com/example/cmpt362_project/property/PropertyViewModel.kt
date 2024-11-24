@@ -27,7 +27,7 @@ class PropertyViewModel : ViewModel() {
         loadProperties()
     }
 
-    private fun loadProperties() {
+    fun loadProperties() {
         // 将完整数据加载到 _properties 中
         _properties.value = allProperties
     }
@@ -53,4 +53,6 @@ class PropertyViewModel : ViewModel() {
             _properties.value = allProperties
         }
     }
+
+    fun getAllProperties(): List<Property> = allProperties
 }

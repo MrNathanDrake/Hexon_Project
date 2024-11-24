@@ -1,5 +1,6 @@
 package com.example.cmpt362_project.dashboard
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -8,8 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -56,6 +61,16 @@ class DashboardFragment : Fragment() {
             propertyAdapter.updateProperties(properties)
         }
 
+        binding.listButton.setOnClickListener {
+            propertyViewModel.loadProperties()
+
+            Toast.makeText(requireContext(), "Showing all properties", Toast.LENGTH_SHORT).show()
+        }
+
+        propertyViewModel.properties.observe(viewLifecycleOwner) { properties ->
+            propertyAdapter.updateProperties(properties)
+        }
+
         // Implement search functionality
         binding.searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -66,6 +81,10 @@ class DashboardFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        val spinnerItems = resources.getStringArray(R.array.property_status_options).toList()
+        val adapter = CustomSpinnerAdapter(requireContext(), spinnerItems)
+        binding.filterSpinner.adapter = adapter
 
         // Implement filter functionality
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -79,7 +98,7 @@ class DashboardFragment : Fragment() {
         }
 
         // implement map button
-        binding.mapbutton.setOnClickListener {
+        binding.mapButton.setOnClickListener {
             val properties = propertyViewModel.properties.value ?: emptyList()
 
             val locations = properties.mapNotNull { property ->
@@ -116,6 +135,27 @@ class DashboardFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+}
+
+class CustomSpinnerAdapter(
+    private val context: Context,
+    private val items: List<String>) : ArrayAdapter<String>(context, R.layout.spinner_item_with_icon, items) {
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val view = LayoutInflater.from(context).inflate(R.layout.spinner_item_with_icon, parent, false)
+        val icon = view.findViewById<ImageView>(R.id.spinnerIcon)
+        val text = view.findViewById<TextView>(R.id.spinnerText)
+
+        // Set text and icon
+        text.text = items[position]
+        icon.setImageResource(R.drawable.filter) // Replace with different icons if needed
+
+        return view
+    }
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        return getView(position, convertView, parent)
     }
 }
 
