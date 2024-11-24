@@ -19,7 +19,7 @@ class SignInActivity : AppCompatActivity() {
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 检查用户是否已经登录
+         // 检查用户是否已经登录
         if (authViewModel.isUserLoggedIn()) {
             navigateToMain()
         }

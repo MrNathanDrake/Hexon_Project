@@ -4,11 +4,15 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cmpt362_project.inbox.user
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class AuthViewModel : ViewModel() {
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var mDbRef: DatabaseReference
 
     // 登录和注册状态的 LiveData
     private val _authStatus = MutableLiveData<AuthStatus>()
@@ -32,7 +36,7 @@ class AuthViewModel : ViewModel() {
     }
 
     // sign up function
-    fun signUp(email: String, password: String, confirmPassword: String) {
+    fun signUp(name: String ,email: String, password: String, confirmPassword: String) {
         if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             _authStatus.value = AuthStatus.Error("Empty Fields Are Not Allowed!")
             return
@@ -46,12 +50,19 @@ class AuthViewModel : ViewModel() {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    addUserToDatabase(name,email,firebaseAuth.currentUser?.uid!! )
                     _authStatus.value = AuthStatus.Success
                 } else {
                     _authStatus.value =
                         AuthStatus.Error(task.exception?.message ?: "Registration Failed")
                 }
             }
+    }
+
+    private fun addUserToDatabase(name: String,email: String,uid:String){
+        mDbRef= FirebaseDatabase.getInstance().getReference()
+        mDbRef.child("user").child(uid).setValue(user(name,email,uid))
+
     }
 
     // 检查是否已登录

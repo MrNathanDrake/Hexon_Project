@@ -34,10 +34,11 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         binding.button.setOnClickListener {
+            val name = binding.nameET.text.toString()
             val email = binding.emailEt.text.toString()
             val pass = binding.passET.text.toString()
             val confirmPass = binding.confirmPassEt.text.toString()
-            authViewModel.signUp(email, pass, confirmPass)
+            authViewModel.signUp(name, email, pass, confirmPass)
         }
     }
 

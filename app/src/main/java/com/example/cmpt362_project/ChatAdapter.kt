@@ -21,16 +21,16 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        holder.bind(chatList[position])
+//        holder.bind(chatList[position])
     }
 
     override fun getItemCount() = chatList.size
 
     class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val messageText: TextView = itemView.findViewById(R.id.messageText)
-
-        fun bind(chat: Chat) {
-            messageText.text = chat.message
-        }
+//        private val messageText: TextView = itemView.findViewById(R.id.messageText)
+//
+//        fun bind(chat: Chat) {
+//            messageText.text = chat.message
+//        }
     }
 }
