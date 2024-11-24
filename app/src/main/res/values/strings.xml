@@ -32,8 +32,15 @@
     <string name="add_info">Additional Information</string>
     <string name="pets">Pets</string>
     <string name="ac">A/C</string>
-    <string name="FH">Floor Heating</string>
+    <string name="fh">Floor Heating</string>
     <string name="parking">Parking</string>
-    <string name="Furniture">Basic Furniture</string>
+    <string name="furniture">Basic Furniture</string>
     <string name="ev">EV charger</string>
+
+    <string name="description_title">Title</string>
+    <string name="description">Description</string>
+    <string name="description_text">Welcome to your new home at 422 Deer View Avenue!
+This spacious 4 bedroom, 3.5 bathroom house offers 4200 sq ft of living space, perfect for a family or group of friends. Schedule a viewing today!</string>
+
+
 </resources>

@@ -41,6 +41,7 @@
         <activity
             android:name=".inbox.ChatActivity"
             android:exported="false" />
+        <activity android:name=".addproperty.AddPropertyDescription" />
     </application>
 
 </manifest>

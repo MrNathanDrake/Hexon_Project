@@ -1,5 +1,6 @@
 package com.example.cmpt362_project.addproperty
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
@@ -18,7 +19,6 @@ class AddPropertyFragment : Fragment() {
 
     private var _binding: FragmentAddpropertyBinding? = null
     private val binding get() = _binding!!
-
 
 
     override fun onCreateView(
@@ -44,6 +44,11 @@ class AddPropertyFragment : Fragment() {
 
         binding.propertytoolbar.setNavigationOnClickListener{
             requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        binding.nextStepButton.setOnClickListener {
+            val intent = Intent(requireContext(), AddPropertyDescription::class.java)
+            startActivity(intent)
         }
 
         return view
