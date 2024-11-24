@@ -36,7 +36,11 @@
             android:name=".MainActivity"
             android:exported="true" />
         <activity android:name=".dashboard.MapActivity" />
+        <activity android:name=".property.PropertyDetailsActivity" />
 
+        <activity
+            android:name=".inbox.ChatActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

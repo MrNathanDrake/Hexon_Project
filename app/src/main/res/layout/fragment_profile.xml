@@ -11,7 +11,7 @@
         android:id="@+id/profileImage"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="50dp"
         android:contentDescription="Profile Image"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
