@@ -43,5 +43,5 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 }
 
-data class LocationData(val latitude: Double, val longtitude: Double, val title: String) : Serializable
-
+data class LocationData(val latitude: Double, val longtitude: Double, val title: String) :
+    Serializable
