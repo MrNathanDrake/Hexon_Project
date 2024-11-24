@@ -1,13 +1,10 @@
 package com.example.cmpt362_project.property
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
-import com.example.cmpt362_project.AddPropertyActivity
 import com.example.cmpt362_project.R
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
@@ -17,24 +14,25 @@ class PropertyDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_property_details)
 
-        // Back button functionality
-        val backButton: ImageButton = findViewById(R.id.backButton)
-        backButton.setOnClickListener {
-            finish() // Closes the activity and goes back
+        // Set up the toolbar
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        // Enable the default back button
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true) // Show back button
+            title = "" // Optional: Clear default title
         }
 
-        // Edit button functionality
-        val editButton: Button = findViewById(R.id.editButton)
-        editButton.setOnClickListener {
-            // Navigate to AddPropertyActivity
-            val intent = Intent(this, AddPropertyActivity::class.java)
-            startActivity(intent)
+        // Set the back button's behavior
+        toolbar.setNavigationOnClickListener {
+            onBackPressed() // Handle back button action
         }
 
         // Retrieve property data from the intent
-        val propertyAddressText = intent.getStringExtra("property_address") ?: "422 Deer View Avenue"
-        val propertyPriceText = intent.getStringExtra("property_price") ?: "3000 CAD / month"
-        val propertyImageUrl = intent.getStringExtra("property_image_url") ?: ""
+        val propertyAddressText = intent.getStringExtra("property_address")
+        val propertyPriceText = intent.getStringExtra("property_price")
+        val propertyImageUrl = intent.getStringExtra("property_image_url")
 
         // Set the property details in the UI
         val propertyAddress: TextView = findViewById(R.id.propertyAddress)
@@ -42,7 +40,7 @@ class PropertyDetailsActivity : AppCompatActivity() {
         propertyAddress.text = propertyAddressText
         propertyPrice.text = propertyPriceText
 
-        // Set up the ViewPager for scrolling images (mock example)
+        // Set up the ViewPager for scrolling images
         val viewPager: ViewPager2 = findViewById(R.id.propertyImageViewPager)
         val dotsIndicator: DotsIndicator = findViewById(R.id.dotsIndicator)
 

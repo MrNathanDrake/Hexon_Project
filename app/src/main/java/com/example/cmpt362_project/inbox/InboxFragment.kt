@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cmpt362_project.ChatAdapter
 import com.example.cmpt362_project.R
 import com.example.cmpt362_project.databinding.FragmentInboxBinding
 
@@ -16,7 +15,7 @@ class InboxFragment : Fragment() {
 
     private var _binding: FragmentInboxBinding? = null
     private val binding get() = _binding!!
-    private lateinit var chatAdapter: ChatAdapter
+    //private lateinit var chatAdapter: ChatAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,

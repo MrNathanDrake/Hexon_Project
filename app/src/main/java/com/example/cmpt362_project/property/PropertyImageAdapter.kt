@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cmpt362_project.R
 
-class PropertyImageAdapter(private val imageUrls: List<String>) : RecyclerView.Adapter<PropertyImageAdapter.ImageViewHolder>() {
+class PropertyImageAdapter(private val imageUrls: List<String?>) : RecyclerView.Adapter<PropertyImageAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_property_image, parent, false)
