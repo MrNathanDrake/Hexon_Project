@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.io.Serializable
 
-class Map : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,5 +43,5 @@ class Map : AppCompatActivity(), OnMapReadyCallback {
     }
 }
 
-data class LocationData(val latitude: Double, val longtitude: Double, val title: String) : Serializable
-
+data class LocationData(val latitude: Double, val longtitude: Double, val title: String) :
+    Serializable

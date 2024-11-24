@@ -48,7 +48,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-        <activity android:name=".dashboard.Map" />
+        <activity android:name=".dashboard.MapActivity" />
+
     </application>
 
 </manifest>

@@ -19,18 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="6dp">
-
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="40dp"
-            android:layout_height="39dp"
-            android:layout_marginStart="8dp"
-            android:layout_gravity="start|center_vertical"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/back"
-            android:layout_marginTop="5dp"
-            android:contentDescription="Back" />
+        android:elevation="5dp">
 
         <Button
             android:id="@+id/editButton"

@@ -3,15 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="4dp"
     android:paddingBottom="16dp"
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:src="@drawable/logo" />
 
     <!-- 标题 -->
     <TextView
@@ -20,6 +15,7 @@
         android:text="My Properties"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:layout_marginTop="25dp"
         android:paddingBottom="4dp" />
 
     <!-- 搜索框 -->

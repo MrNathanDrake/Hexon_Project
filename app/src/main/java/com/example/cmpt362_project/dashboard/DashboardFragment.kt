@@ -88,7 +88,7 @@ class DashboardFragment : Fragment() {
                 } else null
             }
 
-            val intent = Intent(requireContext(), Map::class.java)
+            val intent = Intent(requireContext(), MapActivity::class.java)
             intent.putExtra("locations", ArrayList(locations))
             startActivity(intent)
         }
