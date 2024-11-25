@@ -32,11 +32,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/DescriptionTitle"
-        android:paddingTop="10dp"
+        android:paddingTop="20dp"
         android:paddingStart="20dp"
         android:textStyle="bold"
         android:text="@string/description_title"
-        android:textSize="15sp"
+        android:textSize="18sp"
         app:layout_constraintTop_toBottomOf="@id/addP_title"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/description"
-        android:paddingTop="40dp"
+        android:paddingTop="50dp"
         android:paddingStart="20dp"
         android:textStyle="bold"
         android:text="@string/description"
@@ -85,13 +85,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/chatButtons"
+        android:paddingTop="30dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@null"
+            android:textColor="@color/black"
+            android:text="Formal" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/rounded_background"
+            android:backgroundTint="@null"
+            android:textColor="@color/black"
+            android:text="Casual" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/next2StepButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:text="Next Step"
-        app:layout_constraintTop_toBottomOf="@+id/descriptionText"/>
+        app:layout_constraintTop_toBottomOf="@+id/chatButtons"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
