@@ -86,7 +86,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2.5"
+                android:layout_weight="3"
                 android:orientation="vertical">
 
                 <!-- 下拉框 -->
@@ -108,24 +108,24 @@
                     android:layout_marginTop="8dp"
                     android:paddingTop="4dp">
 
-                    <!-- 编辑按钮 -->
                     <ImageButton
-                        android:id="@+id/editButton"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:contentDescription="Edit"
-                        android:src="@drawable/edit_button"
+                        android:id="@+id/viewButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:contentDescription="view_message"
+                        android:src="@drawable/view"
                         android:background="?android:selectableItemBackground"
-                        android:layout_marginEnd="10dp"
-                        android:elevation="4dp"
-                        android:scaleType="centerInside"/>
+                        android:scaleType="centerInside"
+                        android:elevation="4dp"/>
 
                     <!-- delete button -->
 
                     <ImageButton
                         android:id="@+id/deleteButton"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:contentDescription="Delete"
                         android:src="@drawable/delete_button"
                         android:background="?android:selectableItemBackground"

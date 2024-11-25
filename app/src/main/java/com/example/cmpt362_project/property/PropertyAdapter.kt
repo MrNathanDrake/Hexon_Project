@@ -1,6 +1,7 @@
 package com.example.cmpt362_project.property
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -21,7 +23,8 @@ import com.example.cmpt362_project.R
 class PropertyAdapter(
     private var properties: List<Property>,
     private val onDeleteClick: (Property) -> Unit, // Delete callback
-    private val onStatusChange: (Property, String) -> Unit  // status change callback
+    private val onStatusChange: (Property, String) -> Unit,  // status change callback
+    private val onViewClick: (Property) -> Unit // view callback
 ) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
 
     fun updateProperties(newProperties: List<Property>) {
@@ -46,12 +49,18 @@ class PropertyAdapter(
         private val propertyImage: ImageView = itemView.findViewById(R.id.propertyImage)
         private val propertyStatusSpinner: Spinner = itemView.findViewById(R.id.propertyStatusSpinner)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
+        private val viewButton: ImageButton = itemView.findViewById(R.id.viewButton)
 
         fun bind(property: Property) {
             Glide.with(itemView.context)
                 .load(property.imageUrl)
                 .error(R.drawable.default_image)
                 .into(propertyImage)
+
+            // set view button click listener
+            viewButton.setOnClickListener {
+                onViewClick(property)
+            }
 
             // Set delete button click listener
             deleteButton.setOnClickListener {

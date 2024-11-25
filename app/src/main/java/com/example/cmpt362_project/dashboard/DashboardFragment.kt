@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cmpt362_project.R
 import com.example.cmpt362_project.databinding.FragmentDashboardBinding
+import com.example.cmpt362_project.inbox.InboxFragment
 import com.example.cmpt362_project.property.Property
 import com.example.cmpt362_project.property.PropertyAdapter
 import com.example.cmpt362_project.property.PropertyViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class DashboardFragment : Fragment() {
 
@@ -36,6 +42,7 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("DashboardFragment", "onCreateView called")
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -45,6 +52,17 @@ class DashboardFragment : Fragment() {
             onDeleteClick = { property -> deleteDialog(property)},
             onStatusChange = { property, newStatus ->
                 propertyViewModel.updatePropertyStatus(property, newStatus)
+            },
+            onViewClick = {
+                val navController = findNavController()
+                val navView: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+
+                // Clear the back stack to avoid duplicate fragments
+                navController.popBackStack(R.id.navigation_dashboard, true)
+                navController.navigate(R.id.navigation_inbox)
+
+                // Synchronize BottomNavigationView
+                navView.selectedItemId = R.id.navigation_inbox
             }
         )
         binding.propertyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -59,10 +77,6 @@ class DashboardFragment : Fragment() {
             propertyViewModel.loadProperties()
 
             Toast.makeText(requireContext(), "Showing all properties", Toast.LENGTH_SHORT).show()
-        }
-
-        propertyViewModel.properties.observe(viewLifecycleOwner) { properties ->
-            propertyAdapter.updateProperties(properties)
         }
 
         // Implement search functionality

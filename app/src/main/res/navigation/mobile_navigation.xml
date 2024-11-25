@@ -9,7 +9,9 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.cmpt362_project.dashboard.DashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_addproperty"

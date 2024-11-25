@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
 
-        val navController = findNavController(R.id.activity_main)
+        val navController = findNavController(R.id.nav_host_fragment)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -43,5 +43,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         navView.setupWithNavController(navController)
+
     }
 }
