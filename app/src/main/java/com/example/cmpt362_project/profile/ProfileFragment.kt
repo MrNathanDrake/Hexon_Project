@@ -1,6 +1,7 @@
 package com.example.cmpt362_project.profile
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cmpt362_project.R
+import com.example.cmpt362_project.authority.SignInActivity
 import com.example.cmpt362_project.databinding.FragmentProfileBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
@@ -21,22 +25,44 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val ProfileViewModel =
-            ViewModelProvider(this).get(ProfileViewModel::class.java)
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        val view  = binding.root
 
-//        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-//        val root: View = binding.root
-//
-//        val textView: TextView = binding.text_Profile
-//        ProfileViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
+        // Loading User Information from Firebase
+        loadUserProfile()
+
+        // Setting the Exit Button Function
+        binding.saveButton.setOnClickListener {
+            logOut()
+        }
 
         return view
     }
 
+    private fun loadUserProfile() {
+        val user = FirebaseAuth.getInstance().currentUser
+        val database = FirebaseDatabase.getInstance()
+        val userRef = database.getReference("user").child(user?.uid ?: "")
 
+        userRef.get().addOnSuccessListener { dataSnapshot ->
+            if (dataSnapshot.exists()) {
+                val name = dataSnapshot.child("name").value as? String ?: "N/A"
+                val email = dataSnapshot.child("email").value as? String ?: "N/A"
+
+                binding.nameEdit.setText(name)
+                binding.emailEdit.setText(email)
+            } else {
+                Toast.makeText(requireContext(), "User data not found", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun logOut() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(requireContext(), SignInActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
