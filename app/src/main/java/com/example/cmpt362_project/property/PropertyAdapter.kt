@@ -1,6 +1,7 @@
 package com.example.cmpt362_project.property
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -101,6 +103,7 @@ class PropertyAdapter(
                 propertyStatusSpinner.setSelection(currentStatusIndex)
             }
 
+
             // Dynamically change text color based on selected item
             propertyStatusSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -133,6 +136,21 @@ class PropertyAdapter(
                     putExtra("property_image_url", property.imageUrl)
                 }
                 context.startActivity(intent)
+            }
+
+
+            // Add click listeners for the Craigslist and Facebook ImageViews
+            val craigslistImageView: ImageView = itemView.findViewById(R.id.craigslist)
+            val facebookImageView: ImageView = itemView.findViewById(R.id.facebook)
+
+            craigslistImageView.setOnClickListener {
+                val craigslistIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://vancouver.craigslist.org/"))
+                context.startActivity(craigslistIntent)
+            }
+
+            facebookImageView.setOnClickListener {
+                val facebookIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com"))
+                context.startActivity(facebookIntent)
             }
         }
     }
