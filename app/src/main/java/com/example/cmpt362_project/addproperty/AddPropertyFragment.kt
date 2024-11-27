@@ -7,19 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cmpt362_project.R
 import com.example.cmpt362_project.databinding.FragmentAddpropertyBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class AddPropertyFragment : Fragment() {
 
     private var _binding: FragmentAddpropertyBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var mDbRef: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,9 +49,59 @@ class AddPropertyFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
+        mDbRef = FirebaseDatabase.getInstance().reference
+
         binding.nextStepButton.setOnClickListener {
-            val intent = Intent(requireContext(), AddPropertyDescription::class.java)
-            startActivity(intent)
+            val address = binding.propertyEditText.text.toString()
+            val city = binding.cityEditText.text.toString()
+            val province = binding.provinceSpinner.selectedItem.toString()
+            val postalCode = binding.postalCodeEditText.text.toString()
+            val squareFootage = binding.squareFootageEditText.text.toString()
+            val rent = binding.rentEditText.text.toString()
+            val houseKind = binding.houseKindEditText.text.toString()
+            val bedrooms = binding.bedroomsEditText.text.toString()
+            val baths = binding.bathsEditText.text.toString()
+
+            val hasPet = binding.petEdit.isChecked
+            val hasAc = binding.acEdit.isChecked
+            val hasFloorHeating = binding.floorEdit.isChecked
+            val hasParking = binding.parkingEdit.isChecked
+            val hasFurniture = binding.furnitureEdit.isChecked
+            val hasEvCharger = binding.evEdit.isChecked
+
+            // 创建一个唯一的houseId
+            val houseId = mDbRef.push().key ?: return@setOnClickListener
+
+            // 准备数据
+            val houseData = mapOf(
+                "id" to houseId,
+                "address" to address,
+                "city" to city,
+                "province" to province,
+                "postalCode" to postalCode,
+                "squareFootage" to squareFootage,
+                "rent" to rent,
+                "houseKind" to houseKind,
+                "bedrooms" to bedrooms,
+                "baths" to baths,
+                "description" to "",
+                "features" to mapOf(
+                    "petFriendly" to hasPet,
+                    "hasAc" to hasAc,
+                    "hasFloorHeating" to hasFloorHeating,
+                    "hasParking" to hasParking,
+                    "hasFurniture" to hasFurniture,
+                    "hasEvCharger" to hasEvCharger
+                )
+            )
+
+            mDbRef.child("houses").child(houseId).setValue(houseData).addOnSuccessListener {
+                val intent = Intent(requireContext(), AddPropertyDescription::class.java)
+                intent.putExtra("houseId", houseId)
+                startActivity(intent)
+            }.addOnFailureListener {
+                Toast.makeText(requireContext(), "Failed to save data", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return view
