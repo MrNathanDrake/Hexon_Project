@@ -52,15 +52,16 @@ class AddPropertyFragment : Fragment() {
         mDbRef = FirebaseDatabase.getInstance().reference
 
         binding.nextStepButton.setOnClickListener {
-            val address = binding.propertyEditText.text.toString()
-            val city = binding.cityEditText.text.toString()
+            val address = binding.propertyEditText.text.toString().takeIf { it.isNotEmpty() } ?: "8888 University Dr W"
+            val city = binding.cityEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Burnaby"
             val province = binding.provinceSpinner.selectedItem.toString()
-            val postalCode = binding.postalCodeEditText.text.toString()
-            val squareFootage = binding.squareFootageEditText.text.toString()
-            val rent = binding.rentEditText.text.toString()
-            val houseKind = binding.houseKindEditText.text.toString()
-            val bedrooms = binding.bedroomsEditText.text.toString()
-            val baths = binding.bathsEditText.text.toString()
+            val postalCode = binding.postalCodeEditText.text.toString().takeIf { it.isNotEmpty() } ?: "V3T 0K6"
+
+            val squareFootage = binding.squareFootageEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"
+            val rent = binding.rentEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"
+            val houseKind = binding.houseKindEditText.text.toString().takeIf { it.isNotEmpty() } ?: "House"
+            val bedrooms = binding.bedroomsEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"
+            val baths = binding.bathsEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"
 
             val hasPet = binding.petEdit.isChecked
             val hasAc = binding.acEdit.isChecked
@@ -86,7 +87,7 @@ class AddPropertyFragment : Fragment() {
                 "baths" to baths,
                 "description" to "",
                 "features" to mapOf(
-                    "petFriendly" to hasPet,
+                    "hasPet" to hasPet,
                     "hasAc" to hasAc,
                     "hasFloorHeating" to hasFloorHeating,
                     "hasParking" to hasParking,

@@ -136,6 +136,7 @@
                         android:src="@drawable/ic_bed" />
 
                     <TextView
+                        android:id="@+id/bedroomsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2 Beds"
@@ -158,6 +159,7 @@
                         android:layout_marginRight="2dp"/>
 
                     <TextView
+                        android:id="@+id/bathroomsTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2 Baths"
@@ -180,6 +182,7 @@
                         android:layout_marginRight="2dp"/>
 
                     <TextView
+                        android:id="@+id/squareFootageTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="976 ft²"
@@ -221,12 +224,14 @@
                         android:gravity="center_vertical">
 
                         <ImageView
+                            android:id="@+id/petsImageView"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/yes"
                             android:layout_marginEnd="3dp" />
 
                         <TextView
+                            android:id="@+id/petsTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pets"
@@ -243,12 +248,14 @@
                         android:gravity="center_vertical">
 
                         <ImageView
+                            android:id="@+id/airConditionImageView"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/yes"
                             android:layout_marginEnd="3dp" />
 
                         <TextView
+                            android:id="@+id/airConditionTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Air Condition"
@@ -266,12 +273,14 @@
                         android:gravity="center_vertical">
 
                         <ImageView
+                            android:id="@+id/parkingImageView"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/yes"
                             android:layout_marginEnd="3dp" />
 
                         <TextView
+                            android:id="@+id/parkingTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Parking"
@@ -296,12 +305,14 @@
                         android:gravity="center_vertical">
 
                         <ImageView
+                            android:id="@+id/furnishedImageView"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/yes"
                             android:layout_marginEnd="3dp" />
 
                         <TextView
+                            android:id="@+id/furnishedTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Furnished"
@@ -318,12 +329,14 @@
                         android:gravity="center_vertical">
 
                         <ImageView
+                            android:id="@+id/evChargerImageView"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/yes"
                             android:layout_marginEnd="3dp" />
 
                         <TextView
+                            android:id="@+id/evChargerTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="EV Charger"
@@ -341,12 +354,14 @@
                         android:layout_marginLeft="5dp">
 
                         <ImageView
+                            android:id="@+id/heatingImageView"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/yes"
                             android:layout_marginEnd="3dp" />
 
                         <TextView
+                            android:id="@+id/heatingTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Heating"
@@ -373,7 +388,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
-                android:text="Live upscale, live sustainably. Affordable, contemporary, and offering beautiful views, Mainstreet’s suites in the Abbey Tower of the London Complex at Heritage Station are located in a high-rise condominium complex just south of Downtown where Macleod Trail and Heritage Drive meet, putting you in the heart of the action just outside the heart of the city. Suites feature private balconies with gas connection lines, open-concept living spaces with vaulted ceilings, and large windows to enhance your view and provide ample exposure to natural light while also reducing your carbon footprint and energy bill. Kitchens feature modern appliances and elegant designs."
+                android:text="some text description."
                 android:textSize="15sp"
                 android:padding="10dp"
                 android:lineSpacingExtra="4dp"
