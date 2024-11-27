@@ -1,10 +1,14 @@
 package com.example.cmpt362_project.addproperty
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cmpt362_project.MainActivity
 import com.example.cmpt362_project.databinding.AddPropertyDescriptionBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.json.JSONArray
@@ -16,6 +20,7 @@ class AddPropertyDescription : AppCompatActivity() {
     private lateinit var binding: AddPropertyDescriptionBinding
     private val openAiApiKey =
        "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"
+    private lateinit var mDbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +41,9 @@ class AddPropertyDescription : AppCompatActivity() {
         // Populate fields with OpenAI-generated content
         generateTitleAndDescription()
 
+        mDbRef = FirebaseDatabase.getInstance().reference
+        val houseId = intent.getStringExtra("houseId") ?: return
+
         // Handle Next Step button click
         binding.next2StepButton.setOnClickListener {
             val title = binding.titleText.text.toString().trim()
@@ -44,6 +52,16 @@ class AddPropertyDescription : AppCompatActivity() {
             if (title.isNotEmpty() && description.isNotEmpty()) {
                 Toast.makeText(this, "Proceeding to the next step...", Toast.LENGTH_SHORT).show()
                 // You can pass the data to the next activity or handle navigation here
+
+                mDbRef.child("houses").child(houseId).child("description").setValue(description)
+                    .addOnSuccessListener {
+                        // 返回Dashboard页面
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }.addOnFailureListener {
+                        Toast.makeText(this, "Failed to update description", Toast.LENGTH_SHORT).show()
+                    }
             } else {
                 Toast.makeText(this, "Please fill in both fields before proceeding.", Toast.LENGTH_SHORT).show()
             }
