@@ -43,6 +43,9 @@ class PropertyAdapter(
 
     // Inner class to access 'onDeleteClick' directly
     inner class PropertyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val propertyAddress: TextView = itemView.findViewById(R.id.propertyAddress)
+        private val propertyPrice: TextView = itemView.findViewById(R.id.propertyPrice)
         private val propertyImage: ImageView = itemView.findViewById(R.id.propertyImage)
         private val propertyStatusSpinner: Spinner = itemView.findViewById(R.id.propertyStatusSpinner)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
@@ -53,6 +56,11 @@ class PropertyAdapter(
                 .load(property.imageUrl)
                 .error(R.drawable.default_image)
                 .into(propertyImage)
+
+            val formattedPrice = "CAD ${property.rent} / month"
+
+            propertyAddress.text = property.address
+            propertyPrice.text = formattedPrice
 
             // set view button click listener
             viewButton.setOnClickListener {
@@ -127,7 +135,6 @@ class PropertyAdapter(
                 val intent = Intent(context, PropertyDetailsActivity::class.java).apply {
                     putExtra("property_id", property.id)
                     putExtra("property_address", property.address)
-                    putExtra("property_price", property.price)
                     putExtra("property_image_url", property.imageUrl)
                 }
                 context.startActivity(intent)
