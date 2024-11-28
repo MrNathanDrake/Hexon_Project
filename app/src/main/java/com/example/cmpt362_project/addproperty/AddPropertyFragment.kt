@@ -54,7 +54,7 @@ class AddPropertyFragment : Fragment() {
         binding.nextStepButton.setOnClickListener {
             val address = binding.propertyEditText.text.toString().takeIf { it.isNotEmpty() } ?: "8888 University Dr W"
             val city = binding.cityEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Burnaby"
-            val province = binding.provinceSpinner.selectedItem.toString()
+            val province = binding.provinceSpinner.selectedItem.toString() 
             val postalCode = binding.postalCodeEditText.text.toString().takeIf { it.isNotEmpty() } ?: "V3T 0K6"
 
             val squareFootage = binding.squareFootageEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"

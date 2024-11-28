@@ -1,6 +1,8 @@
 package com.example.cmpt362_project.property
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -13,6 +15,8 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
 class PropertyDetailsActivity : AppCompatActivity() {
 
+    private lateinit var editButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_property_details)
@@ -20,6 +24,8 @@ class PropertyDetailsActivity : AppCompatActivity() {
         // Set up the toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        editButton = findViewById(R.id.editButton)
 
         // Enable the default back button
         supportActionBar?.apply {
@@ -35,32 +41,18 @@ class PropertyDetailsActivity : AppCompatActivity() {
         // Retrieve property data from the intent
         val propertyId =
             intent.getStringExtra("property_id") // Property ID for fetching Firebase data
-//        val propertyAddressText = intent.getStringExtra("property_address")
-//        val propertyImageUrl = intent.getStringExtra("property_image_url")
-//
-//        // Set the property details in the UI
-//        val propertyAddress: TextView = findViewById(R.id.propertyAddress)
-//        val propertyPrice: TextView = findViewById(R.id.propertyPrice)
-//        propertyAddress.text = propertyAddressText
-//        propertyPrice.text = propertyPriceText
-//
-//        // Set up the ViewPager for scrolling images
-//        val viewPager: ViewPager2 = findViewById(R.id.propertyImageViewPager)
-//        val dotsIndicator: DotsIndicator = findViewById(R.id.dotsIndicator)
 
-        // Create a list of image URLs
-//        val imageUrls = listOf(
-//            propertyImageUrl,
-//            "https://example.com/another_image.jpg", // Add additional URLs as needed
-//            "https://example.com/yet_another_image.jpg"
-//        )
-//
-//        // Set up the adapter with the list of image URLs
-//        viewPager.adapter = PropertyImageAdapter(imageUrls)
-//        dotsIndicator.setViewPager2(viewPager)
         // Fetch property details from Firebase
         if (propertyId != null) {
             fetchPropertyDetails(propertyId)
+        }
+
+        editButton.setOnClickListener {
+            val intent = Intent(this, PropertyEditActivity::class.java).apply {
+                putExtra("property_id", propertyId)
+                // Pass additional property details if necessary
+            }
+            startActivity(intent)
         }
     }
     private fun fetchPropertyDetails(propertyId: String) {
