@@ -9,6 +9,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.cmpt362_project.MainActivity
@@ -46,19 +47,19 @@ class PropertyEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_property_edit)
 
-        // 使用 ViewBinding
-        binding = ActivityPropertyEditBinding.inflate(layoutInflater)
+        // Set up the toolbar
+        val toolbar: Toolbar = findViewById(R.id.propertyEditToolbar)
+        setSupportActionBar(toolbar)
 
-        // 设置 Toolbar
-        setSupportActionBar(binding.propertyEditToolbar)
+        // Enable the default back button
         supportActionBar?.apply {
-            title = "" // 设置工具栏标题为空
-            setDisplayHomeAsUpEnabled(true) // 启用左侧返回按钮
+            setDisplayHomeAsUpEnabled(true) // Show back button
+            title = "" // Optional: Clear default title
         }
 
-        // 设置导航按钮的点击事件
-        binding.propertyEditToolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed() // 触发系统返回操作
+        // Set the back button's behavior
+        toolbar.setNavigationOnClickListener {
+            onBackPressed() // Handle back button action
         }
 
         // Initialize UI components

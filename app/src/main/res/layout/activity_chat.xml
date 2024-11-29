@@ -12,21 +12,21 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:layout_marginTop="50dp"
+        android:paddingTop="10dp"
         android:elevation="6dp"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     <TextView
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/toolbar_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="end"
-        android:paddingEnd="16dp"
-        android:text="BACK"
+        android:gravity="center_vertical"
         android:textColor="@android:color/black"
-        android:clickable="true"
-        android:focusable="true"/>
+        android:textSize="24sp"
+        android:layout_gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"/>
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout

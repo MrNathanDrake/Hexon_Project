@@ -41,10 +41,23 @@ class ChatActivity : AppCompatActivity() {
         senderRoom = senderUid + receiverUid
         receiverRoom = receiverUid + senderUid
 
+        // Set up the toolbar
         val toolbar: Toolbar = findViewById(R.id.chat_toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = name
-        backButton = findViewById(R.id.back_button)
+
+        // Enable the default back button
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true) // Show back button
+            title = "" // Optional: Clear default title
+        }
+
+        // Set the back button's behavior
+        toolbar.setNavigationOnClickListener {
+            onBackPressed() // Handle back button action
+        }
+
+        val titleTextView: TextView = findViewById(R.id.toolbar_title)
+        titleTextView.text = name
 
         chatRecyclerView = findViewById(R.id.chatRecyclerView)
         messageBox = findViewById(R.id.messagebox)
@@ -81,8 +94,5 @@ class ChatActivity : AppCompatActivity() {
             messageBox.setText("")
         }
 
-        backButton.setOnClickListener {
-            finish()
-        }
     }
 }
