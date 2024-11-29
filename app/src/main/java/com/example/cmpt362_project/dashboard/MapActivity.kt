@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.example.cmpt362_project.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -34,6 +35,21 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map)
+
+        // Set up the toolbar
+        val toolbar: Toolbar = findViewById(R.id.mapToolbar)
+        setSupportActionBar(toolbar)
+
+        // Enable the default back button
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true) // Show back button
+            title = "" // Optional: Clear default title
+        }
+
+        // Set the back button's behavior
+        toolbar.setNavigationOnClickListener {
+            onBackPressed() // Handle back button action
+        }
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)

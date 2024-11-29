@@ -5,21 +5,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mapToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/maptoolbar"
-        android:background="?attr/colorPrimary"
-        android:elevation="8dp"
-        android:translationZ="8dp"
+        android:background="?attr/colorSurface"
+        android:layout_marginTop="50dp"
+        android:theme="@style/AppTheme"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="8dp" />
 
     <fragment
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/maptoolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/mapToolbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
