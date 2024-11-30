@@ -107,16 +107,18 @@ class DashboardFragment : Fragment() {
 
         // implement map button
         binding.mapButton.setOnClickListener {
-            val properties = propertyViewModel.properties.value ?: emptyList()
+            val postalCodes = propertyViewModel.properties.value?.mapNotNull { property ->
+                property.postalCode
+            } ?: emptyList()
 
-            val locations = properties.mapNotNull { property ->
-                if (property.latitude != null && property.longitude != null) {
-                    LocationData(property.latitude, property.longitude, property.address)
-                } else null
+            if (postalCodes.isEmpty()) {
+                Toast.makeText(requireContext(), "No properties available", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
+            // 将所有邮政编码传递到 MapActivity
             val intent = Intent(requireContext(), MapActivity::class.java)
-            intent.putExtra("locations", ArrayList(locations))
+            intent.putStringArrayListExtra("postal_codes", ArrayList(postalCodes))
             startActivity(intent)
         }
 
@@ -166,4 +168,3 @@ class CustomSpinnerAdapter(
         return getView(position, convertView, parent)
     }
 }
-
