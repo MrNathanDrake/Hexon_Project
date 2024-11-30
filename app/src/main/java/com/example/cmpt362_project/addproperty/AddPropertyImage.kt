@@ -31,10 +31,12 @@ class AddPropertyImage : AppCompatActivity() {
         }
 
         binding.propertyImage1.setOnClickListener {
+            uploadImage = binding.propertyImage1
             openGallery()
         }
 
         binding.propertyImage2.setOnClickListener {
+            uploadImage = binding.propertyImage2
             openGallery()
         }
 
