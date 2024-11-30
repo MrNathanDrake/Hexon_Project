@@ -41,6 +41,12 @@ class AddPropertyImage : AppCompatActivity() {
         }
 
 
+        // Not yet implemented, waiting for connecting to database
+//        binding.submitButton.setOnClickListener {
+//
+//        }
+
+
     }
 
     private fun openGallery() {
