@@ -55,8 +55,8 @@ class AddPropertyDescription : AppCompatActivity() {
 
                 mDbRef.child("houses").child(houseId).child("description").setValue(description)
                     .addOnSuccessListener {
-                        // 返回Dashboard页面
-                        val intent = Intent(this, MainActivity::class.java)
+                        // go to step 3 to upload image
+                        val intent = Intent(this, AddPropertyImage::class.java)
                         startActivity(intent)
                         finish()
                     }.addOnFailureListener {
