@@ -12,10 +12,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cmpt362_project.R
+import com.google.android.gms.common.internal.Objects.ToStringHelper
 
 class PropertyAdapter(
     private var properties: List<Property>,
@@ -24,8 +26,11 @@ class PropertyAdapter(
     private val onViewClick: (Property) -> Unit // view callback
 ) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
 
+    private val initializedSpinners = mutableSetOf<String>()
+
     fun updateProperties(newProperties: List<Property>) {
         properties = newProperties
+        initializedSpinners.clear() // Reset spinner tracking
         notifyDataSetChanged()
     }
 
@@ -79,7 +84,14 @@ class PropertyAdapter(
             val adapter = object : ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, statusOptions) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val view = super.getView(position, convertView, parent) as TextView
-                    view.setTextColor(ContextCompat.getColor(context, R.color.black)) // Default color when not selected
+                    view.setTextColor(
+                        when (statusOptions[position]) {
+                            "Active" -> ContextCompat.getColor(context, R.color.green)
+                            "Archived" -> ContextCompat.getColor(context, R.color.orange)
+                            "Unlisted" -> ContextCompat.getColor(context, R.color.blue)
+                            else -> ContextCompat.getColor(context, R.color.black)
+                        }
+                    )
                     return view
                 }
 
@@ -110,20 +122,27 @@ class PropertyAdapter(
             // Dynamically change text color based on selected item
             propertyStatusSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    val selectedStatus = statusOptions[position]
+                    if (initializedSpinners.contains(property.id)) {
+                        val selectedStatus = statusOptions[position]
 
-                    (view as? TextView)?.setTextColor(
-                        when (statusOptions[position]) {
-                            "Active" -> ContextCompat.getColor(context, R.color.green)
-                            "Archived" -> ContextCompat.getColor(context, R.color.orange)
-                            "Unlisted" -> ContextCompat.getColor(context, R.color.blue)
-                            else -> ContextCompat.getColor(context, R.color.black)
+                        (view as? TextView)?.setTextColor(
+                            when (selectedStatus) {
+                                "Active" -> ContextCompat.getColor(context, R.color.green)
+                                "Archived" -> ContextCompat.getColor(context, R.color.orange)
+                                "Unlisted" -> ContextCompat.getColor(context, R.color.blue)
+                                else -> ContextCompat.getColor(context, R.color.black)
+                            }
+                        )
+
+                        Toast.makeText(context, "Changed the status to: $selectedStatus", Toast.LENGTH_SHORT).show()
+
+                        // update the status if it has changed
+                        if (selectedStatus != property.status) {
+                            onStatusChange(property, selectedStatus)
                         }
-                    )
 
-                    // update the status if it has changed
-                    if (selectedStatus != property.status) {
-                        onStatusChange(property, selectedStatus)
+                    } else {
+                        property.id?.let { initializedSpinners.add(it) }
                     }
                 }
 
