@@ -81,6 +81,7 @@ class AddPropertyDescription : AppCompatActivity() {
                     putExtra("houseKind", houseKind)
                     putExtra("bedrooms", bedrooms)
                     putExtra("baths", baths)
+                    putExtra("description", description)
                     putExtra("status", status)
                     putExtra("features", HashMap(features))
                 }

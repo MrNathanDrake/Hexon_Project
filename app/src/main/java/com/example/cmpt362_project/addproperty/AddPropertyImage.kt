@@ -57,6 +57,7 @@ class AddPropertyImage : AppCompatActivity() {
         val houseKind = intent.getStringExtra("houseKind") ?: ""
         val bedrooms = intent.getStringExtra("bedrooms") ?: ""
         val baths = intent.getStringExtra("baths") ?: ""
+        val description = intent.getStringExtra("description") ?:""
         val status = intent.getStringExtra("status")?: ""
         val features = intent.getSerializableExtra("features") as? Map<String, Boolean> ?: emptyMap()
 
@@ -75,7 +76,7 @@ class AddPropertyImage : AppCompatActivity() {
                     "houseKind" to houseKind,
                     "bedrooms" to bedrooms,
                     "baths" to baths,
-                    "description" to "",
+                    "description" to description,
                     "status" to status,
                     "features" to features
                 )

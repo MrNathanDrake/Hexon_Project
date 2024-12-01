@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 
 class PropertyViewModel : ViewModel() {
 //    private val allProperties = mutableListOf(
@@ -94,14 +95,48 @@ class PropertyViewModel : ViewModel() {
     }
 
     fun deleteProperty(property: Property) {
-        property.id?.let {
-            databaseReference.child(it).removeValue()
-                .addOnSuccessListener {
-                    println("Property deleted successfully.")
+//        property.id?.let {
+//            databaseReference.child(it).removeValue()
+//                .addOnSuccessListener {
+//                    println("Property deleted successfully.")
+//                }
+//                .addOnFailureListener { e ->
+//                    println("Failed to delete property: ${e.message}")
+//                }
+//        }
+
+        property.id?.let { propertyId ->
+            // Reference to the property in the Realtime Database
+            val propertyReference = databaseReference.child(propertyId)
+
+            // Step 1: Retrieve the image URLs from the database before deleting the property
+            propertyReference.child("images").get().addOnSuccessListener { snapshot ->
+                val imageUrls = snapshot.children.mapNotNull { it.getValue(String::class.java) }
+
+                // Step 2: Delete each image from Firebase Storage
+                val storageReference = FirebaseStorage.getInstance().reference
+                imageUrls.forEach { imageUrl ->
+                    val storagePath = storageReference.storage.getReferenceFromUrl(imageUrl)
+                    storagePath.delete()
+                        .addOnSuccessListener {
+                            println("Image deleted successfully: $imageUrl")
+                        }
+                        .addOnFailureListener { e ->
+                            println("Failed to delete image: ${e.message}")
+                        }
                 }
-                .addOnFailureListener { e ->
-                    println("Failed to delete property: ${e.message}")
-                }
+
+                // Step 3: Delete the property data from the Realtime Database
+                propertyReference.removeValue()
+                    .addOnSuccessListener {
+                        println("Property deleted successfully from database.")
+                    }
+                    .addOnFailureListener { e ->
+                        println("Failed to delete property from database: ${e.message}")
+                    }
+            }.addOnFailureListener { e ->
+                println("Failed to retrieve image URLs: ${e.message}")
+            }
         }
     }
 
