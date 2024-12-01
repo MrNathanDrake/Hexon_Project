@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 
@@ -81,6 +82,10 @@ class PropertyViewModel : ViewModel() {
                 for (propertySnapshot in snapshot.children) {
                     val property = propertySnapshot.getValue(Property::class.java)
                     if (property != null) {
+                        // Extract platforms from the snapshot
+                        val platformsSnapshot = propertySnapshot.child("platforms")
+                        val platforms = platformsSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {}) ?: emptyList()
+                        property.platforms = platforms
                         propertyList.add(property)
                     }
                 }

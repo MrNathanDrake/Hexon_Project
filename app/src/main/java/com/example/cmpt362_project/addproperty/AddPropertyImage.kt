@@ -22,6 +22,7 @@ class AddPropertyImage : AppCompatActivity() {
     private val tempImageUris = mutableMapOf<Int, Uri?>()
     private val uploadedImagesUrls = mutableListOf<String>() // List to store successfully uploaded image URLs
     private lateinit var mDbRef: DatabaseReference
+    private val platforms = mutableSetOf<String>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,10 +42,23 @@ class AddPropertyImage : AppCompatActivity() {
 
         setupImageClickListener(binding.propertyImage1, 1)
 
-//        binding.propertyImage2.setOnClickListener {
-//            uploadImage = binding.propertyImage2
-//            openGallery()
-//        }
+        binding.checkbox1.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                platforms.add("Facebook")
+            } else {
+                platforms.remove("Facebook")
+            }
+        }
+
+        binding.checkbox2.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                platforms.add("Craiglist")
+            } else {
+                platforms.remove("Craiglist")
+            }
+        }
+
+
         mDbRef = FirebaseDatabase.getInstance().reference
 
         val houseId = intent.getStringExtra("houseId") ?: return
@@ -64,6 +78,7 @@ class AddPropertyImage : AppCompatActivity() {
 
         binding.submitButton.setOnClickListener {
             if (tempImageUris.values.any { it != null }) {
+                val platformsList = platforms.toList()
 
                 val houseData = mapOf(
                     "id" to houseId,
@@ -78,7 +93,8 @@ class AddPropertyImage : AppCompatActivity() {
                     "baths" to baths,
                     "description" to description,
                     "status" to status,
-                    "features" to features
+                    "features" to features,
+                    "platforms" to platformsList
                 )
 
                 uploadAllImagesToFirebase(tempImageUris.filterValues { it != null }, houseId)
@@ -88,7 +104,9 @@ class AddPropertyImage : AppCompatActivity() {
                     Toast.makeText(this, "Failed to save data", Toast.LENGTH_SHORT).show()
                 }
 
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("platforms", ArrayList(platforms))
+                }
                 startActivity(intent)
                 finish()
             } else {

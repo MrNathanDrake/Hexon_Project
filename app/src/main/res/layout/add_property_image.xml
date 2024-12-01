@@ -96,21 +96,29 @@
                     android:layout_marginEnd="45dp"
                     android:text="Craiglist"/>
 
-                <CheckBox
-                    android:id="@+id/checkbox3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="live.ca"/>
-
             </LinearLayout>
 
-            <Button
-                android:id="@+id/submit_button"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="Submit" />
+                android:orientation="horizontal"
+                android:layout_marginTop="40dp">
 
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Back"/>
+
+                <Button
+                    android:id="@+id/submit_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Submit" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

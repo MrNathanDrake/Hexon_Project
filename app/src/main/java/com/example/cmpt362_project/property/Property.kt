@@ -15,5 +15,6 @@ data class Property(
     val additionalInfo: String = "",
     val latitude: Double? = null,
     val longitude: Double? = null,
-    val status: String = "Active"
+    val status: String = "Active",
+    var platforms: List<String> = emptyList()
 )

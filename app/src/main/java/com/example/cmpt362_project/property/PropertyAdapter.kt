@@ -59,6 +59,8 @@ class PropertyAdapter(
         private val propertyStatusSpinner: Spinner = itemView.findViewById(R.id.propertyStatusSpinner)
         private val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
         private val viewButton: ImageButton = itemView.findViewById(R.id.viewButton)
+        val craigslistImageView: ImageView = itemView.findViewById(R.id.craigslist)
+        val facebookImageView: ImageView = itemView.findViewById(R.id.facebook)
 
         fun bind(property: Property) {
 
@@ -182,10 +184,8 @@ class PropertyAdapter(
                 context.startActivity(intent)
             }
 
-
-            // Add click listeners for the Craigslist and Facebook ImageViews
-            val craigslistImageView: ImageView = itemView.findViewById(R.id.craigslist)
-            val facebookImageView: ImageView = itemView.findViewById(R.id.facebook)
+            facebookImageView.visibility = if (property.platforms.contains("Facebook")) View.VISIBLE else View.GONE
+            craigslistImageView.visibility = if (property.platforms.contains("Craiglist")) View.VISIBLE else View.GONE
 
             craigslistImageView.setOnClickListener {
                 val craigslistIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://vancouver.craigslist.org/"))
