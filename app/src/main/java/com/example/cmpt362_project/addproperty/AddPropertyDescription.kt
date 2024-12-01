@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.cmpt362_project.MainActivity
 import com.example.cmpt362_project.databinding.AddPropertyDescriptionBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -18,8 +17,7 @@ import java.io.IOException
 class AddPropertyDescription : AppCompatActivity() {
 
     private lateinit var binding: AddPropertyDescriptionBinding
-    private val openAiApiKey =
-        "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"
+    private val openAiApiKey =  "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"
     private lateinit var mDbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +26,6 @@ class AddPropertyDescription : AppCompatActivity() {
         binding = AddPropertyDescriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set up toolbar
         setSupportActionBar(binding.DescriptionToolbar)
         supportActionBar?.apply {
             title = ""
@@ -38,24 +35,39 @@ class AddPropertyDescription : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Populate fields with OpenAI-generated content
-        generateTitleAndDescription()
+        val houseId = intent.getStringExtra("houseId") ?: return
+        val address = intent.getStringExtra("address") ?: ""
+        val city = intent.getStringExtra("city") ?: ""
+        val province = intent.getStringExtra("province") ?: ""
+        val postalCode = intent.getStringExtra("postalCode") ?: ""
+        val squareFootage = intent.getStringExtra("squareFootage") ?: ""
+        val rent = intent.getStringExtra("rent") ?: ""
+        val houseKind = intent.getStringExtra("houseKind") ?: ""
+        val bedrooms = intent.getStringExtra("bedrooms") ?: ""
+        val baths = intent.getStringExtra("baths") ?: ""
+        val features = intent.getSerializableExtra("features") as? Map<String, Boolean> ?: emptyMap()
+
+        Log.d("AddPropertyDescription", "address: $address")
+        Log.d("AddPropertyDescription", "city: $city")
+        Log.d("AddPropertyDescription", "postalCode: $postalCode")
+        Log.d("AddPropertyDescription", "squareFootage: $squareFootage")
+        Log.d("AddPropertyDescription", "rent: $rent")
+        Log.d("AddPropertyDescription", "baths: $baths")
+        generateTitleAndDescription(
+            address, city, province, postalCode,
+            squareFootage, rent, houseKind,
+            bedrooms, baths, features
+        )
 
         mDbRef = FirebaseDatabase.getInstance().reference
-        val houseId = intent.getStringExtra("houseId") ?: return
 
-        // Handle Next Step button click
         binding.next2StepButton.setOnClickListener {
             val title = binding.titleText.text.toString().trim()
             val description = binding.descriptionText.text.toString().trim()
 
             if (title.isNotEmpty() && description.isNotEmpty()) {
-                Toast.makeText(this, "Proceeding to the next step...", Toast.LENGTH_SHORT).show()
-                // You can pass the data to the next activity or handle navigation here
-
                 mDbRef.child("houses").child(houseId).child("description").setValue(description)
                     .addOnSuccessListener {
-                        // go to step 3 to upload image
                         val intent = Intent(this, AddPropertyImage::class.java)
                         intent.putExtra("houseId", houseId)
                         startActivity(intent)
@@ -69,23 +81,29 @@ class AddPropertyDescription : AppCompatActivity() {
         }
     }
 
-    private fun generateTitleAndDescription() {
+    private fun generateTitleAndDescription(
+        address: String, city: String, province: String, postalCode: String,
+        squareFootage: String, rent: String, houseKind: String,
+        bedrooms: String, baths: String, features: Map<String, Boolean>
+    ) {
         val prompt = """
-        Generate a property title and description for a spacious 4-bedroom house with central parking in Ottawa. Details:
-        - 4 bedrooms
-        - 3 bathrooms
-        - 2,500 sqft
-        - Rent: $4,500/month
-        - Central parking, pet-friendly, and EV charger
-        
-        Respond with only the title and description, separated by two newlines. Do not include prefixes like "Title:" or "Description:".
-    """.trimIndent()
+            Generate a property title and description based on the following details:
+            Address: $address, $city, $province, $postalCode
+            Type: $houseKind
+            Bedrooms: $bedrooms
+            Bathrooms: $baths
+            Square Footage: $squareFootage sqft
+            Rent: $$rent/month
+            Features: ${features.entries.joinToString(", ") { "${it.key}=${it.value}" }}
+            
+            Respond with only the title and description, separated by two newlines.
+        """.trimIndent()
 
-        val url = "https://api.openai.com/v1/chat/completions" // Updated endpoint
+        val url = "https://api.openai.com/v1/chat/completions"
         val client = OkHttpClient()
 
         val json = JSONObject()
-        json.put("model", "gpt-3.5-turbo") // Or "gpt-4" if supported
+        json.put("model", "gpt-3.5-turbo")
         json.put("messages", JSONArray().apply {
             put(JSONObject().apply {
                 put("role", "system")
@@ -96,7 +114,7 @@ class AddPropertyDescription : AppCompatActivity() {
                 put("content", prompt)
             })
         })
-        json.put("max_tokens", 150)
+        json.put("max_tokens", 250)
         json.put("temperature", 0.7)
 
         val requestBody = RequestBody.create(
@@ -110,15 +128,12 @@ class AddPropertyDescription : AppCompatActivity() {
             .addHeader("Authorization", "Bearer $openAiApiKey")
             .build()
 
-        Log.d("OpenAI", "Sending Request: $json")
-
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e("OpenAI", "API request failed: ${e.message}")
                 runOnUiThread {
                     Toast.makeText(
                         this@AddPropertyDescription,
-                        "Failed to generate content. Please try again.",
+                        "Failed to generate description. Please try again.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -127,7 +142,6 @@ class AddPropertyDescription : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string()
-                    Log.d("OpenAI", "Response Body: $responseBody")
                     val jsonResponse = JSONObject(responseBody ?: "{}")
                     val generatedText = jsonResponse.getJSONArray("choices")
                         .getJSONObject(0)
@@ -135,7 +149,6 @@ class AddPropertyDescription : AppCompatActivity() {
                         .getString("content")
                         .trim()
 
-                    // Assume the generated text is in "Title\n\nDescription" format
                     val splitText = generatedText.split("\n\n")
                     val title = splitText.getOrNull(0) ?: "Generated Title"
                     val description = splitText.getOrNull(1) ?: "Generated Description"
@@ -145,12 +158,10 @@ class AddPropertyDescription : AppCompatActivity() {
                         binding.descriptionText.setText(description)
                     }
                 } else {
-                    Log.e("OpenAI", "API request failed with code: ${response.code}")
-                    Log.e("OpenAI", "Error Body: ${response.body?.string()}")
                     runOnUiThread {
                         Toast.makeText(
                             this@AddPropertyDescription,
-                            "Error: Unable to fetch data from OpenAI API.",
+                            "Error generating description.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -158,8 +169,4 @@ class AddPropertyDescription : AppCompatActivity() {
             }
         })
     }
-
-
-
-
 }
