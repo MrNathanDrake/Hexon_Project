@@ -47,7 +47,6 @@ class AddPropertyImage : AppCompatActivity() {
 
         val houseId = intent.getStringExtra("houseId") ?: return
 
-
         binding.submitButton.setOnClickListener {
             if (tempImageUris.values.any { it != null }) {
                 uploadAllImagesToFirebase(tempImageUris.filterValues { it != null }, houseId)

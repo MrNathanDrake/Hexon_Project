@@ -43,5 +43,6 @@
 This spacious 4 bedroom, 3.5 bathroom house offers 4200 sq ft of living space, perfect for a family or group of friends. Schedule a viewing today!</string>
 
     <string name="property_description">Upload Image here</string>
+    <string name="platform_selection">Please select platform(s) to upload</string>
 
 </resources>
