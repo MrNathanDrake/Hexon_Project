@@ -57,6 +57,7 @@ class AddPropertyDescription : AppCompatActivity() {
                     .addOnSuccessListener {
                         // go to step 3 to upload image
                         val intent = Intent(this, AddPropertyImage::class.java)
+                        intent.putExtra("houseId", houseId)
                         startActivity(intent)
                         finish()
                     }.addOnFailureListener {

@@ -44,32 +44,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="233dp"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="150dp"
-                    android:layout_weight="1"
-                    android:layout_margin="8dp"
                     android:id="@+id/property_image1"
-                    android:src="@drawable/image_placeholder"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/property_description"
-                    android:clickable="true"
-                    android:focusable="true" />
-
-                <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="150dp"
-                    android:layout_weight="1"
+                    android:layout_height="220dp"
                     android:layout_margin="8dp"
-                    android:id="@+id/property_image2"
-                    android:src="@drawable/image_placeholder"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="@string/property_description"
+                    android:layout_weight="1"
                     android:clickable="true"
-                    android:focusable="true" />
+                    android:contentDescription="@string/property_description"
+                    android:focusable="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_placeholder" />
 
             </LinearLayout>
 
