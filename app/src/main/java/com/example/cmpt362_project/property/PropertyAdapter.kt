@@ -122,27 +122,26 @@ class PropertyAdapter(
             // Dynamically change text color based on selected item
             propertyStatusSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    if (initializedSpinners.contains(property.id)) {
-                        val selectedStatus = statusOptions[position]
-
-                        (view as? TextView)?.setTextColor(
-                            when (selectedStatus) {
-                                "Active" -> ContextCompat.getColor(context, R.color.green)
-                                "Archived" -> ContextCompat.getColor(context, R.color.orange)
-                                "Unlisted" -> ContextCompat.getColor(context, R.color.blue)
-                                else -> ContextCompat.getColor(context, R.color.black)
-                            }
-                        )
-
-                        Toast.makeText(context, "Changed the status to: $selectedStatus", Toast.LENGTH_SHORT).show()
-
-                        // update the status if it has changed
-                        if (selectedStatus != property.status) {
-                            onStatusChange(property, selectedStatus)
+                    val selectedStatus = statusOptions[position]
+                    (view as? TextView)?.setTextColor(
+                        when (selectedStatus) {
+                            "Active" -> ContextCompat.getColor(context, R.color.green)
+                            "Archived" -> ContextCompat.getColor(context, R.color.orange)
+                            "Unlisted" -> ContextCompat.getColor(context, R.color.blue)
+                            else -> ContextCompat.getColor(context, R.color.black)
                         }
+                    )
 
-                    } else {
+                    if (property.id !in initializedSpinners) {
+                        // Mark spinner as initialized to avoid triggering callbacks during initialization
                         property.id?.let { initializedSpinners.add(it) }
+                        return
+                    }
+
+                    // Display Toast and trigger callback only if the status changes
+                    if (selectedStatus != property.status) {
+                        Toast.makeText(context, "Changed the status to: $selectedStatus", Toast.LENGTH_SHORT).show()
+                        onStatusChange(property, selectedStatus)
                     }
                 }
 
