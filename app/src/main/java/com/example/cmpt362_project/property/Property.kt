@@ -15,5 +15,5 @@ data class Property(
     val additionalInfo: String = "",
     val latitude: Double? = null,
     val longitude: Double? = null,
-    val status: String = "Available"
+    val status: String = "Active"
 )

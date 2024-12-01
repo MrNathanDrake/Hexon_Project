@@ -18,6 +18,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cmpt362_project.R
 import com.google.android.gms.common.internal.Objects.ToStringHelper
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class PropertyAdapter(
     private var properties: List<Property>,
@@ -57,15 +61,35 @@ class PropertyAdapter(
         private val viewButton: ImageButton = itemView.findViewById(R.id.viewButton)
 
         fun bind(property: Property) {
-            Glide.with(itemView.context)
-                .load(property.imageUrl)
-                .error(R.drawable.default_image)
-                .into(propertyImage)
 
             val formattedPrice = "CAD ${property.rent} / month"
 
             propertyAddress.text = property.address
             propertyPrice.text = formattedPrice
+
+            // Load the first image URL or a default image if no images exist
+            val databaseReference = FirebaseDatabase.getInstance().getReference("houses/${property.id}/images")
+            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val imageUrls = snapshot.children.mapNotNull { it.getValue(String::class.java) }
+
+                    if (imageUrls.isNotEmpty()) {
+                        Glide.with(itemView.context)
+                            .load(imageUrls[0]) // Load the first image for display
+                            .placeholder(R.drawable.default_image)
+                            .error(R.drawable.default_image)
+                            .into(propertyImage)
+                    } else {
+                        // Fallback to a default image if no images exist
+                        propertyImage.setImageResource(R.drawable.default_image)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle the error case
+                    propertyImage.setImageResource(R.drawable.default_image)
+                }
+            })
 
             // set view button click listener
             viewButton.setOnClickListener {

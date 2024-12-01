@@ -53,24 +53,14 @@
             android:orientation="vertical">
 
             <!-- ViewPager for scrolling images -->
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/propertyImageViewPager"
+            <ImageView
+                android:id="@+id/propertyImageView"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/default_image"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
                 android:background="@drawable/button_border_black"/>
-
-            <!-- Dots indicator -->
-            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                android:id="@+id/dotsIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:dotsColor="@color/gray"
-                app:selectedDotColor="@color/purple"
-                app:dotsSize="6dp"
-                app:dotsSpacing="4dp"
-                android:layout_gravity="center_horizontal" />
 
             <!-- Property details section -->
             <LinearLayout
@@ -84,6 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Simon Fraser University"
+                    android:layout_marginTop="10dp"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 

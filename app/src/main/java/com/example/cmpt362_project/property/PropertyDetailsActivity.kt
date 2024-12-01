@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.cmpt362_project.R
 import com.google.firebase.database.FirebaseDatabase
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
@@ -16,6 +17,7 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 class PropertyDetailsActivity : AppCompatActivity() {
 
     private lateinit var editButton: Button
+    private lateinit var propertyImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class PropertyDetailsActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         editButton = findViewById(R.id.editButton)
+        propertyImage = findViewById(R.id.propertyImageView)
 
         // Enable the default back button
         supportActionBar?.apply {
@@ -45,6 +48,7 @@ class PropertyDetailsActivity : AppCompatActivity() {
         // Fetch property details from Firebase
         if (propertyId != null) {
             fetchPropertyDetails(propertyId)
+            fetchPropertyImages(propertyId)
         }
 
         editButton.setOnClickListener {
@@ -69,6 +73,29 @@ class PropertyDetailsActivity : AppCompatActivity() {
         }
     }
 
+    private fun fetchPropertyImages(propertyId: String) {
+        val imagesReference = FirebaseDatabase.getInstance().getReference("houses/$propertyId/images")
+
+        imagesReference.get().addOnSuccessListener { snapshot ->
+            val imageUrls = snapshot.children.mapNotNull { it.getValue(String::class.java) }
+
+            if (imageUrls.isNotEmpty()) {
+                // Load the first image into the ImageView
+                Glide.with(this)
+                    .load(imageUrls[0]) // Use the first image URL
+                    .placeholder(R.drawable.default_image) // Show a placeholder while loading
+                    .error(R.drawable.default_image) // Show a default image if loading fails
+                    .centerCrop()
+                    .into(propertyImage)
+            } else {
+                Toast.makeText(this, "No images found for this property", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener { exception ->
+            Toast.makeText(this, "Failed to fetch images: ${exception.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     private fun populateUI(details: PropertyDetails) {
         // Property details
         findViewById<TextView>(R.id.propertyAddress).text = details.address
@@ -85,12 +112,6 @@ class PropertyDetailsActivity : AppCompatActivity() {
         // Populate amenities
         populateAmenities(details.features)
 
-
-        // Image ViewPager
-        val viewPager: ViewPager2 = findViewById(R.id.propertyImageViewPager)
-        val dotsIndicator: DotsIndicator = findViewById(R.id.dotsIndicator)
-        viewPager.adapter = PropertyImageAdapter(details.imageUrls ?: emptyList())
-        dotsIndicator.setViewPager2(viewPager)
     }
 
 

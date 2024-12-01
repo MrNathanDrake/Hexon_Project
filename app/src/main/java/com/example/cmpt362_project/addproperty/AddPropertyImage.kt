@@ -21,6 +21,7 @@ class AddPropertyImage : AppCompatActivity() {
     private val REQUEST_CODE = 1001
     private val tempImageUris = mutableMapOf<Int, Uri?>()
     private val uploadedImagesUrls = mutableListOf<String>() // List to store successfully uploaded image URLs
+    private lateinit var mDbRef: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,12 +45,48 @@ class AddPropertyImage : AppCompatActivity() {
 //            uploadImage = binding.propertyImage2
 //            openGallery()
 //        }
+        mDbRef = FirebaseDatabase.getInstance().reference
 
         val houseId = intent.getStringExtra("houseId") ?: return
+        val address = intent.getStringExtra("address") ?: ""
+        val city = intent.getStringExtra("city") ?: ""
+        val province = intent.getStringExtra("province") ?: ""
+        val postalCode = intent.getStringExtra("postalCode") ?: ""
+        val squareFootage = intent.getStringExtra("squareFootage") ?: ""
+        val rent = intent.getStringExtra("rent") ?: ""
+        val houseKind = intent.getStringExtra("houseKind") ?: ""
+        val bedrooms = intent.getStringExtra("bedrooms") ?: ""
+        val baths = intent.getStringExtra("baths") ?: ""
+        val status = intent.getStringExtra("status")?: ""
+        val features = intent.getSerializableExtra("features") as? Map<String, Boolean> ?: emptyMap()
+
 
         binding.submitButton.setOnClickListener {
             if (tempImageUris.values.any { it != null }) {
+
+                val houseData = mapOf(
+                    "id" to houseId,
+                    "address" to address,
+                    "city" to city,
+                    "province" to province,
+                    "postalCode" to postalCode,
+                    "squareFootage" to squareFootage,
+                    "rent" to rent,
+                    "houseKind" to houseKind,
+                    "bedrooms" to bedrooms,
+                    "baths" to baths,
+                    "description" to "",
+                    "status" to status,
+                    "features" to features
+                )
+
                 uploadAllImagesToFirebase(tempImageUris.filterValues { it != null }, houseId)
+
+                mDbRef.child("houses").child(houseId).setValue(houseData).addOnSuccessListener {
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Failed to save data", Toast.LENGTH_SHORT).show()
+                }
+
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()

@@ -45,6 +45,7 @@ class AddPropertyDescription : AppCompatActivity() {
         val houseKind = intent.getStringExtra("houseKind") ?: ""
         val bedrooms = intent.getStringExtra("bedrooms") ?: ""
         val baths = intent.getStringExtra("baths") ?: ""
+        val status = intent.getStringExtra("status")?: ""
         val features = intent.getSerializableExtra("features") as? Map<String, Boolean> ?: emptyMap()
 
         Log.d("AddPropertyDescription", "address: $address")
@@ -66,17 +67,35 @@ class AddPropertyDescription : AppCompatActivity() {
             val description = binding.descriptionText.text.toString().trim()
 
             if (title.isNotEmpty() && description.isNotEmpty()) {
-                mDbRef.child("houses").child(houseId).child("description").setValue(description)
-                    .addOnSuccessListener {
-                        val intent = Intent(this, AddPropertyImage::class.java)
-                        intent.putExtra("houseId", houseId)
-                        startActivity(intent)
-                        finish()
-                    }.addOnFailureListener {
-                        Toast.makeText(this, "Failed to update description", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(this, "Please fill in both fields before proceeding.", Toast.LENGTH_SHORT).show()
+//                mDbRef.child("houses").child(houseId).child("description").setValue(description)
+//                    .addOnSuccessListener {
+
+                val intent = Intent(this, AddPropertyImage::class.java).apply {
+                    putExtra("houseId", houseId)
+                    putExtra("address", address)
+                    putExtra("city", city)
+                    putExtra("province", province)
+                    putExtra("postalCode", postalCode)
+                    putExtra("squareFootage", squareFootage)
+                    putExtra("rent", rent)
+                    putExtra("houseKind", houseKind)
+                    putExtra("bedrooms", bedrooms)
+                    putExtra("baths", baths)
+                    putExtra("status", status)
+                    putExtra("features", HashMap(features))
+                }
+                startActivity(intent)
+                finish()
+
+//                        val intent = Intent(this, AddPropertyImage::class.java)
+//                        intent.putExtra("houseId", houseId)
+//                        startActivity(intent)
+//                        finish()
+//                    }.addOnFailureListener {
+//                        Toast.makeText(this, "Failed to update description", Toast.LENGTH_SHORT).show()
+//                    }
+//            } else {
+//                Toast.makeText(this, "Please fill in both fields before proceeding.", Toast.LENGTH_SHORT).show()
             }
         }
     }

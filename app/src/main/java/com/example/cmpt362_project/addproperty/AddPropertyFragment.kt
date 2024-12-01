@@ -65,6 +65,7 @@ class AddPropertyFragment : Fragment() {
             val hasEvCharger = binding.evEdit.isChecked
 
             val houseId = mDbRef.push().key ?: return@setOnClickListener
+            val status = "Active"
 
             val features = mapOf(
                 "hasPet" to hasPet,
@@ -87,10 +88,11 @@ class AddPropertyFragment : Fragment() {
                 "bedrooms" to bedrooms,
                 "baths" to baths,
                 "description" to "",
+                "status" to status,
                 "features" to features
             )
 
-            mDbRef.child("houses").child(houseId).setValue(houseData).addOnSuccessListener {
+//            mDbRef.child("houses").child(houseId).setValue(houseData).addOnSuccessListener {
                 val intent = Intent(requireContext(), AddPropertyDescription::class.java).apply {
                     putExtra("houseId", houseId)
                     putExtra("address", address)
@@ -102,12 +104,13 @@ class AddPropertyFragment : Fragment() {
                     putExtra("houseKind", houseKind)
                     putExtra("bedrooms", bedrooms)
                     putExtra("baths", baths)
+                    putExtra("status", status)
                     putExtra("features", HashMap(features))
                 }
                 startActivity(intent)
-            }.addOnFailureListener {
-                Toast.makeText(requireContext(), "Failed to save data", Toast.LENGTH_SHORT).show()
-            }
+//            }.addOnFailureListener {
+//                Toast.makeText(requireContext(), "Failed to save data", Toast.LENGTH_SHORT).show()
+//            }
         }
 
         return view
