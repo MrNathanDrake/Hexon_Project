@@ -33,7 +33,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.map)
 
         // 接收从 DashboardFragment 传递的邮政编码列表
-        val postalCodes = intent.getStringArrayListExtra("postal_codes") ?: emptyList()
+        val locationDataList = intent.getParcelableArrayListExtra<LocationData>("locations") ?: emptyList()
 
         // 设置工具栏
         val toolbar: Toolbar = findViewById(R.id.mapToolbar)
@@ -50,8 +50,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync {
             map = it
-            // 更新地图
-            updateMapWithPostalCodes(postalCodes)
+            updateMapWithLocations(locationDataList)
         }
     }
 
@@ -59,33 +58,34 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         map = googleMap
     }
 
-    private fun updateMapWithPostalCodes(postalCodes: List<String>) {
+    private fun updateMapWithLocations(locationDataList: List<LocationData>) {
         CoroutineScope(Dispatchers.IO).launch {
-            val locations = postalCodes.mapNotNull { postalCode ->
-                fetchLatLngFromPostalCode(postalCode)
+            val updatedLocations = locationDataList.mapNotNull { location ->
+                val updatedLatLng = fetchLatLngFromPostalCode(location.title)
+                updatedLatLng?.copy(title = location.title) // 保留地址信息
             }
 
             withContext(Dispatchers.Main) {
-                // 在地图上添加标记
-                locations.forEach { location ->
+                updatedLocations.forEach { location ->
                     val latLng = LatLng(location.latitude, location.longitude)
                     map.addMarker(MarkerOptions().position(latLng).title(location.title))
                 }
 
                 // 将相机移动到第一个标记的位置
-                if (locations.isNotEmpty()) {
-                    val firstLocation = locations.first()
+                if (updatedLocations.isNotEmpty()) {
+                    val firstLocation = updatedLocations.first()
                     val latLng = LatLng(firstLocation.latitude, firstLocation.longitude)
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10f))
                 } else {
-                    // 如果没有找到位置，显示提示信息
-                    showToast("No locations found for the provided postal codes.")
+                    showToast("No locations found.")
                 }
             }
         }
     }
 
-    private fun fetchLatLngFromPostalCode(postalCode: String): LocationData? {
+
+    private fun fetchLatLngFromPostalCode(title: String): LocationData? {
+        val postalCode = title.substringAfterLast("(", "").substringBefore(")")
         val apiKey = getApiKey()
         val url = "https://maps.googleapis.com/maps/api/geocode/json?address=${postalCode.replace(" ", "+")}&key=$apiKey"
 
@@ -100,15 +100,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 val location = results.getJSONObject(0).getJSONObject("geometry").getJSONObject("location")
                 val latitude = location.getDouble("lat")
                 val longitude = location.getDouble("lng")
-                LocationData(latitude, longitude, postalCode)
+                LocationData(latitude, longitude, title)
             } else {
-                null // 没有找到结果
+                null
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            null // 发生错误
+            null
         }
     }
+
 
     private fun getApiKey(): String {
         return try {

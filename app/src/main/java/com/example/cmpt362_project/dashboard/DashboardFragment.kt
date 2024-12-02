@@ -107,18 +107,26 @@ class DashboardFragment : Fragment() {
 
         // implement map button
         binding.mapButton.setOnClickListener {
-            val postalCodes = propertyViewModel.properties.value?.mapNotNull { property ->
-                property.postalCode
+            val locationDataList = propertyViewModel.properties.value?.mapNotNull { property ->
+                if (!property.postalCode.isNullOrEmpty() && !property.address.isNullOrEmpty()) {
+                    LocationData(
+                        latitude = 0.0, // Placeholder for now
+                        longitude = 0.0, // Placeholder for now
+                        title = "${property.address} (${property.postalCode})"
+                    )
+                } else {
+                    null
+                }
             } ?: emptyList()
 
-            if (postalCodes.isEmpty()) {
-                Toast.makeText(requireContext(), "No properties available", Toast.LENGTH_SHORT).show()
+            if (locationDataList.isEmpty()) {
+                Toast.makeText(requireContext(), "No properties available with valid data", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // 将所有邮政编码传递到 MapActivity
+            // Pass the location data list to MapActivity
             val intent = Intent(requireContext(), MapActivity::class.java)
-            intent.putStringArrayListExtra("postal_codes", ArrayList(postalCodes))
+            intent.putParcelableArrayListExtra("locations", ArrayList(locationDataList))
             startActivity(intent)
         }
 
