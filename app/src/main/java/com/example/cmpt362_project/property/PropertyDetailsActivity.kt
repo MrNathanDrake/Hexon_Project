@@ -83,7 +83,6 @@ class PropertyDetailsActivity : AppCompatActivity() {
                 // Load the first image into the ImageView
                 Glide.with(this)
                     .load(imageUrls[0]) // Use the first image URL
-                    .placeholder(R.drawable.default_image) // Show a placeholder while loading
                     .error(R.drawable.default_image) // Show a default image if loading fails
                     .centerCrop()
                     .into(propertyImage)

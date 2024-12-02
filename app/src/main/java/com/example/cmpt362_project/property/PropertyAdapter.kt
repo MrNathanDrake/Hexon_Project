@@ -78,7 +78,6 @@ class PropertyAdapter(
                     if (imageUrls.isNotEmpty()) {
                         Glide.with(itemView.context)
                             .load(imageUrls[0]) // Load the first image for display
-                            .placeholder(R.drawable.default_image)
                             .error(R.drawable.default_image)
                             .into(propertyImage)
                     } else {
