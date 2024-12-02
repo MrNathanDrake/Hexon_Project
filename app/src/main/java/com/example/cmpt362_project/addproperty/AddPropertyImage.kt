@@ -49,9 +49,6 @@ class AddPropertyImage : AppCompatActivity() {
                 platforms.remove("Facebook")
             }
         }
-        binding.backButton.setOnClickListener {
-            navigateBackToDescription()
-        }
 
         binding.checkbox2.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -61,6 +58,9 @@ class AddPropertyImage : AppCompatActivity() {
             }
         }
 
+        binding.backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         mDbRef = FirebaseDatabase.getInstance().reference
 
@@ -117,12 +117,6 @@ class AddPropertyImage : AppCompatActivity() {
             }
         }
 
-    }
-
-    private fun navigateBackToDescription() {
-        val intent = Intent(this, AddPropertyDescription::class.java)
-        startActivity(intent)
-        finish()
     }
 
 

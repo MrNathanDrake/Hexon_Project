@@ -31,9 +31,15 @@ class AddPropertyDescription : AppCompatActivity() {
             title = ""
             setDisplayHomeAsUpEnabled(true)
         }
+
         binding.DescriptionToolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+
+        binding.backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
         binding.refreshButton.setOnClickListener {
             binding.titleText.text.clear()
             binding.descriptionText.text.clear()
@@ -51,10 +57,6 @@ class AddPropertyDescription : AppCompatActivity() {
                 baths = intent.getStringExtra("baths") ?: "",
                 features = intent.getSerializableExtra("features") as? Map<String, Boolean> ?: emptyMap()
             )
-        }
-
-        binding.backButton.setOnClickListener {
-            finish()
         }
 
         val houseId = intent.getStringExtra("houseId") ?: return
@@ -83,8 +85,6 @@ class AddPropertyDescription : AppCompatActivity() {
             val description = binding.descriptionText.text.toString().trim()
 
             if (title.isNotEmpty() && description.isNotEmpty()) {
-//                mDbRef.child("houses").child(houseId).child("description").setValue(description)
-//                    .addOnSuccessListener {
 
                 val intent = Intent(this, AddPropertyImage::class.java).apply {
                     putExtra("houseId", houseId)
@@ -102,7 +102,6 @@ class AddPropertyDescription : AppCompatActivity() {
                     putExtra("features", HashMap(features))
                 }
                 startActivity(intent)
-                finish()
             }
         }
     }
