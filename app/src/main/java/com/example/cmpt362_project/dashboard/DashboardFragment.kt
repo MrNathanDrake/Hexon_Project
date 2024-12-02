@@ -17,13 +17,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cmpt362_project.R
 import com.example.cmpt362_project.databinding.FragmentDashboardBinding
-import com.example.cmpt362_project.inbox.InboxFragment
 import com.example.cmpt362_project.property.Property
 import com.example.cmpt362_project.property.PropertyAdapter
 import com.example.cmpt362_project.property.PropertyViewModel
