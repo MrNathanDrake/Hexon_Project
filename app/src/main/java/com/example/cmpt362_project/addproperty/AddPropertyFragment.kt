@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cmpt362_project.databinding.FragmentAddpropertyBinding
@@ -20,6 +21,18 @@ class AddPropertyFragment : Fragment() {
     private var _binding: FragmentAddpropertyBinding? = null
     private val binding get() = _binding!!
     private lateinit var mDbRef: DatabaseReference
+
+    private fun showMissingInfoDialog(missingFields: List<String>) {
+        val message = "The following fields are missing:\n\n" + missingFields.joinToString("\n") { "- $it" }
+        AlertDialog.Builder(requireContext())
+            .setTitle("Incomplete Information")
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,33 +73,55 @@ class AddPropertyFragment : Fragment() {
         }
 
         binding.nextStepButton.setOnClickListener {
+            val missingFields = mutableListOf<String>()
+
             val address = binding.propertyEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
             val city = binding.cityEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
             val province = binding.provinceSpinner.selectedItem.toString()
             val postalCode = binding.postalCodeEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
             val postalCodeRegex = Regex("^[A-Za-z]\\d[A-Za-z][ ]?\\d[A-Za-z]\\d$")
 
+            val availableDate = binding.availableDateEditText.text.toString()
+            val squareFootage = binding.squareFootageEditText.text.toString()
+            val rent = binding.rentEditText.text.toString()
+            val houseKind = binding.houseKindSpinner.selectedItem.toString()
+            val bedrooms = binding.bedroomsEditText.text.toString()
+            val baths = binding.bathsEditText.text.toString()
+
+            if (address.isEmpty()) missingFields.add("Address")
+            if (city.isEmpty()) missingFields.add("City")
+            if (province == "Select Province") missingFields.add("Province")
+            if (availableDate.isEmpty()) missingFields.add("Available Date")
+            if (squareFootage.isEmpty()) missingFields.add("Square Footage")
+            if (rent.isEmpty()) missingFields.add("Rent")
+            if (houseKind == "Select House Kind") missingFields.add("House Kind")
+            if (bedrooms.isEmpty()) missingFields.add("Bedrooms")
+            if (baths.isEmpty()) missingFields.add("Baths")
             if (postalCode.isEmpty() || !postalCode.matches(postalCodeRegex)) {
                 Toast.makeText(requireContext(), "Invalid postal code. Please enter a valid postal code (e.g., A1A 1A1).", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+//            val availableDate = binding.availableDateEditText.text.toString()
+//            if (availableDate.isEmpty()) {
+//                Toast.makeText(requireContext(), "Please select an available date.", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
 
-            val availableDate = binding.availableDateEditText.text.toString()
-            if (availableDate.isEmpty()) {
-                Toast.makeText(requireContext(), "Please select an available date.", Toast.LENGTH_SHORT).show()
+            if (missingFields.isNotEmpty()) {
+                showMissingInfoDialog(missingFields)
                 return@setOnClickListener
             }
 
-            val squareFootage = binding.squareFootageEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
-            val rent = binding.rentEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
-            val houseKind = binding.houseKindSpinner.selectedItem.toString().takeIf {
-                it.isNotEmpty() && it != "Select House Kind"
-            } ?: run {
-                Toast.makeText(requireContext(), "Please select a house kind.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            val bedrooms = binding.bedroomsEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
-            val baths = binding.bathsEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+//            val squareFootage = binding.squareFootageEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+//            val rent = binding.rentEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+//            val houseKind = binding.houseKindSpinner.selectedItem.toString().takeIf {
+//                it.isNotEmpty() && it != "Select House Kind"
+//            } ?: run {
+//                Toast.makeText(requireContext(), "Please select a house kind.", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//            val bedrooms = binding.bedroomsEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+//            val baths = binding.bathsEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
 
             val hasPet = binding.petEdit.isChecked
             val hasAc = binding.acEdit.isChecked
