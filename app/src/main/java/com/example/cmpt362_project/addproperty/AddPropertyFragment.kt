@@ -46,16 +46,27 @@ class AddPropertyFragment : Fragment() {
         mDbRef = FirebaseDatabase.getInstance().reference
 
         binding.nextStepButton.setOnClickListener {
-            val address = binding.propertyEditText.text.toString().takeIf { it.isNotEmpty() } ?: "8888 University Dr W"
-            val city = binding.cityEditText.text.toString().takeIf { it.isNotEmpty() } ?: "Burnaby"
+            val address = binding.propertyEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+            val city = binding.cityEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
             val province = binding.provinceSpinner.selectedItem.toString()
-            val postalCode = binding.postalCodeEditText.text.toString().takeIf { it.isNotEmpty() } ?: "V3T 0K6"
+            val postalCode = binding.postalCodeEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+            val postalCodeRegex = Regex("^[A-Za-z]\\d[A-Za-z][ ]?\\d[A-Za-z]\\d$")
 
-            val squareFootage = binding.squareFootageEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"
-            val rent = binding.rentEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"
-            val houseKind = binding.houseKindEditText.text.toString().takeIf { it.isNotEmpty() } ?: "House"
-            val bedrooms = binding.bedroomsEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"
-            val baths = binding.bathsEditText.text.toString().takeIf { it.isNotEmpty() } ?: "0"
+            if (postalCode.isEmpty() || !postalCode.matches(postalCodeRegex)) {
+                Toast.makeText(requireContext(), "Invalid postal code. Please enter a valid postal code (e.g., A1A 1A1).", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val squareFootage = binding.squareFootageEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+            val rent = binding.rentEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+            val houseKind = binding.houseKindSpinner.selectedItem.toString().takeIf {
+                it.isNotEmpty() && it != "Select House Kind"
+            } ?: run {
+                Toast.makeText(requireContext(), "Please select a house kind.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val bedrooms = binding.bedroomsEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
+            val baths = binding.bathsEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
 
             val hasPet = binding.petEdit.isChecked
             val hasAc = binding.acEdit.isChecked
@@ -108,9 +119,6 @@ class AddPropertyFragment : Fragment() {
                     putExtra("features", HashMap(features))
                 }
                 startActivity(intent)
-//            }.addOnFailureListener {
-//                Toast.makeText(requireContext(), "Failed to save data", Toast.LENGTH_SHORT).show()
-//            }
         }
 
         return view

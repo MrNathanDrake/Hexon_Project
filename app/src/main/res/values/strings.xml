@@ -26,6 +26,12 @@
         <item>Saskatchewan</item>
     </string-array>
 
+    <string-array name="house_kinds">
+        <item>House</item>
+        <item>Townhouse</item>
+        <item>Apartment</item>
+    </string-array>
+
     <string name="postal">Ex. V5A 1S6</string>
     <string name="available_date">Available Date</string>
     <string name="square_f">Square Footage</string>

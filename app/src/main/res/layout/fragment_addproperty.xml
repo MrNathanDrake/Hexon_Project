@@ -230,13 +230,15 @@
                         android:text="House Kind"
                         android:textStyle="bold"/>
 
-                    <EditText
-                        android:id="@+id/houseKindEditText"
+                    <Spinner
+                        android:id="@+id/houseKindSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:hint="Ex. Apartment, House"
-                        android:backgroundTint="@color/gray" />
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:spinnerMode="dropdown"
+                        android:entries="@array/house_kinds" />
+
                 </LinearLayout>
             </LinearLayout>
 
