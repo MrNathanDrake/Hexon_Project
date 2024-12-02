@@ -1,5 +1,6 @@
 package com.example.cmpt362_project.addproperty
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.cmpt362_project.databinding.FragmentAddpropertyBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.Calendar
 
 class AddPropertyFragment : Fragment() {
 
@@ -45,6 +47,18 @@ class AddPropertyFragment : Fragment() {
 
         mDbRef = FirebaseDatabase.getInstance().reference
 
+        binding.availableDateEditText.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+                val formattedDate = String.format("%02d/%02d/%04d", selectedDay + 1, selectedMonth, selectedYear)
+                binding.availableDateEditText.setText(formattedDate)
+            }, year, month, day).show()
+        }
+
         binding.nextStepButton.setOnClickListener {
             val address = binding.propertyEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
             val city = binding.cityEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
@@ -54,6 +68,12 @@ class AddPropertyFragment : Fragment() {
 
             if (postalCode.isEmpty() || !postalCode.matches(postalCodeRegex)) {
                 Toast.makeText(requireContext(), "Invalid postal code. Please enter a valid postal code (e.g., A1A 1A1).", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val availableDate = binding.availableDateEditText.text.toString()
+            if (availableDate.isEmpty()) {
+                Toast.makeText(requireContext(), "Please select an available date.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
