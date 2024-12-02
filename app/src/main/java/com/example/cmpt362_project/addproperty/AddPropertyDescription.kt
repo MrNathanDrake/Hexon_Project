@@ -34,6 +34,28 @@ class AddPropertyDescription : AppCompatActivity() {
         binding.DescriptionToolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+        binding.refreshButton.setOnClickListener {
+            binding.titleText.text.clear()
+            binding.descriptionText.text.clear()
+
+            // Regenerate content if no title or description exists
+            generateTitleAndDescription(
+                address = intent.getStringExtra("address") ?: "",
+                city = intent.getStringExtra("city") ?: "",
+                province = intent.getStringExtra("province") ?: "",
+                postalCode = intent.getStringExtra("postalCode") ?: "",
+                squareFootage = intent.getStringExtra("squareFootage") ?: "",
+                rent = intent.getStringExtra("rent") ?: "",
+                houseKind = intent.getStringExtra("houseKind") ?: "",
+                bedrooms = intent.getStringExtra("bedrooms") ?: "",
+                baths = intent.getStringExtra("baths") ?: "",
+                features = intent.getSerializableExtra("features") as? Map<String, Boolean> ?: emptyMap()
+            )
+        }
+
+        binding.backButton.setOnClickListener {
+            finish()
+        }
 
         val houseId = intent.getStringExtra("houseId") ?: return
         val address = intent.getStringExtra("address") ?: ""
@@ -48,12 +70,6 @@ class AddPropertyDescription : AppCompatActivity() {
         val status = intent.getStringExtra("status")?: ""
         val features = intent.getSerializableExtra("features") as? Map<String, Boolean> ?: emptyMap()
 
-        Log.d("AddPropertyDescription", "address: $address")
-        Log.d("AddPropertyDescription", "city: $city")
-        Log.d("AddPropertyDescription", "postalCode: $postalCode")
-        Log.d("AddPropertyDescription", "squareFootage: $squareFootage")
-        Log.d("AddPropertyDescription", "rent: $rent")
-        Log.d("AddPropertyDescription", "baths: $baths")
         generateTitleAndDescription(
             address, city, province, postalCode,
             squareFootage, rent, houseKind,
@@ -87,16 +103,6 @@ class AddPropertyDescription : AppCompatActivity() {
                 }
                 startActivity(intent)
                 finish()
-
-//                        val intent = Intent(this, AddPropertyImage::class.java)
-//                        intent.putExtra("houseId", houseId)
-//                        startActivity(intent)
-//                        finish()
-//                    }.addOnFailureListener {
-//                        Toast.makeText(this, "Failed to update description", Toast.LENGTH_SHORT).show()
-//                    }
-//            } else {
-//                Toast.makeText(this, "Please fill in both fields before proceeding.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -107,17 +113,19 @@ class AddPropertyDescription : AppCompatActivity() {
         bedrooms: String, baths: String, features: Map<String, Boolean>
     ) {
         val prompt = """
-            Generate a property title and description based on the following details:
-            Address: $address, $city, $province, $postalCode
-            Type: $houseKind
-            Bedrooms: $bedrooms
-            Bathrooms: $baths
-            Square Footage: $squareFootage sqft
-            Rent: $$rent/month
-            Features: ${features.entries.joinToString(", ") { "${it.key}=${it.value}" }}
-            
-            Respond with only the title and description, separated by two newlines.
-        """.trimIndent()
+        Using the same property details below, generate a new and unique version of the property details:
+        Address: $address, $city, $province, $postalCode
+        Type: $houseKind
+        Bedrooms: $bedrooms
+        Bathrooms: $baths
+        Square Footage: $squareFootage sqft
+        Rent: $$rent/month
+        Features: ${features.entries.joinToString(", ") { "${it.key}=${it.value}" }}
+        
+        Respond with the following format:
+        - Title: <Property Title>
+        - Description: <Property Description>
+    """.trimIndent()
 
         val url = "https://api.openai.com/v1/chat/completions"
         val client = OkHttpClient()
@@ -127,15 +135,15 @@ class AddPropertyDescription : AppCompatActivity() {
         json.put("messages", JSONArray().apply {
             put(JSONObject().apply {
                 put("role", "system")
-                put("content", "You are a helpful assistant that generates property descriptions.")
+                put("content", "You are a helpful assistant that generates property details.")
             })
             put(JSONObject().apply {
                 put("role", "user")
                 put("content", prompt)
             })
         })
-        json.put("max_tokens", 250)
-        json.put("temperature", 0.7)
+        json.put("max_tokens", 300)
+        json.put("temperature", 0.9)
 
         val requestBody = RequestBody.create(
             "application/json; charset=utf-8".toMediaTypeOrNull(),
@@ -153,7 +161,7 @@ class AddPropertyDescription : AppCompatActivity() {
                 runOnUiThread {
                     Toast.makeText(
                         this@AddPropertyDescription,
-                        "Failed to generate description. Please try again.",
+                        "Failed to generate content. Please try again.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -169,9 +177,12 @@ class AddPropertyDescription : AppCompatActivity() {
                         .getString("content")
                         .trim()
 
-                    val splitText = generatedText.split("\n\n")
-                    val title = splitText.getOrNull(0) ?: "Generated Title"
-                    val description = splitText.getOrNull(1) ?: "Generated Description"
+                    // Parse the response correctly
+                    val titleRegex = Regex("(?<=- Title: ).*")
+                    val descriptionRegex = Regex("(?<=- Description: ).*")
+
+                    val title = titleRegex.find(generatedText)?.value?.trim() ?: "Generated Title"
+                    val description = descriptionRegex.find(generatedText)?.value?.trim() ?: "Generated Description"
 
                     runOnUiThread {
                         binding.titleText.setText(title)
@@ -181,7 +192,7 @@ class AddPropertyDescription : AppCompatActivity() {
                     runOnUiThread {
                         Toast.makeText(
                             this@AddPropertyDescription,
-                            "Error generating description.",
+                            "Error generating content.",
                             Toast.LENGTH_SHORT
                         ).show()
                     }

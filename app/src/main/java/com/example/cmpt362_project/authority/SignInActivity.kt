@@ -41,7 +41,7 @@ class SignInActivity : AppCompatActivity() {
 
         // set up sign in button, retrieves the input and pass it to the authViewModel
         binding.button.setOnClickListener {
-            val email = binding.emailEt.text.toString()
+            val email = binding.emailEt.text.toString().trim()
             val pass = binding.passET.text.toString()
             authViewModel.signIn(email, pass)
         }
