@@ -17,7 +17,7 @@ import java.io.IOException
 class AddPropertyDescription : AppCompatActivity() {
 
     private lateinit var binding: AddPropertyDescriptionBinding
-    private val openAiApiKey =  "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"
+    private val openAiApiKey =  "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"
     private lateinit var mDbRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
