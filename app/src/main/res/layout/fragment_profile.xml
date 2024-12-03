@@ -20,7 +20,6 @@
         android:src="@drawable/img"
         app:shapeAppearanceOverlay="@style/CircleImage"/>
 
-    <!-- 标题 -->
     <TextView
         android:id="@+id/profileTitle"
         android:layout_width="wrap_content"
@@ -33,7 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 名字标题 -->
     <TextView
         android:id="@+id/nameText"
         android:layout_width="wrap_content"
@@ -43,7 +41,6 @@
         app:layout_constraintTop_toBottomOf="@id/profileTitle"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- 名字编辑框 -->
     <EditText
         android:id="@+id/nameEdit"
         android:layout_width="0dp"
@@ -55,7 +52,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- 邮箱标题 -->
     <TextView
         android:id="@+id/emailText"
         android:layout_width="wrap_content"
@@ -65,7 +61,6 @@
         app:layout_constraintTop_toBottomOf="@id/nameEdit"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- 邮箱编辑框 -->
     <EditText
         android:id="@+id/emailEdit"
         android:layout_width="0dp"

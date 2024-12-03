@@ -38,15 +38,12 @@ class InboxFragment : Fragment() {
             ViewModelProvider(this).get(InboxViewModel::class.java)
         _binding = FragmentInboxBinding.inflate(inflater, container, false)
 
-        // Firebase 初始化
         mAuth = FirebaseAuth.getInstance()
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
-        // 初始化用户列表
         userList = ArrayList()
         adapter = userAdapter(requireContext(), userList)
 
-        // RecyclerView 设置
         binding.userRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.userRecyclerView.adapter = adapter
 

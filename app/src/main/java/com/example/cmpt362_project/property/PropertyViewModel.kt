@@ -12,56 +12,6 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 
 class PropertyViewModel : ViewModel() {
-//    private val allProperties = mutableListOf(
-//        Property(1,
-//            "422 Deer View Avenue",
-//            "CAD 3550 / month",
-//            "https://example.com/image1.jpg",
-//            latitude = 49.277748,
-//            longitude = -122.909050),
-//        Property(2,
-//            "2550 Pateseabc Avenue",
-//            "CAD 2 / month",
-//            "https://example.com/image2.jpg",
-//            latitude = 49.267941,
-//            longitude = -123.247360)
-//    )
-//
-//    private val _properties = MutableLiveData<List<Property>>()
-//    val properties: LiveData<List<Property>> get() = _properties
-//
-//    init {
-//        loadProperties()
-//    }
-//
-//    fun loadProperties() {
-//        // 将完整数据加载到 _properties 中
-//        _properties.value = allProperties
-//    }
-//
-//    fun deleteProperty(property: Property) {
-//        allProperties.remove(property)
-//        _properties.value = allProperties
-//    }
-//
-//    fun searchProperties(query: String, filterStatus: String = "All") {
-//        val filteredList = allProperties.filter { property ->
-//            val matchQuery = property.address.contains(query, ignoreCase = true)
-//            val matchStatus = filterStatus == "All" || property.status == filterStatus
-//            matchQuery && matchStatus
-//        }
-//        _properties.value = filteredList
-//    }
-//
-//    fun updatePropertyStatus(property: Property, newStatus: String) {
-//        val index = allProperties.indexOfFirst { it.id == property.id }
-//        if (index != -1) {
-//            allProperties[index] = allProperties[index].copy(status = newStatus)
-//            _properties.value = allProperties
-//        }
-//    }
-//
-//    fun getAllProperties(): List<Property> = allProperties
 
     // Firebase Database reference
     private val databaseReference: DatabaseReference =
@@ -100,15 +50,6 @@ class PropertyViewModel : ViewModel() {
     }
 
     fun deleteProperty(property: Property) {
-//        property.id?.let {
-//            databaseReference.child(it).removeValue()
-//                .addOnSuccessListener {
-//                    println("Property deleted successfully.")
-//                }
-//                .addOnFailureListener { e ->
-//                    println("Failed to delete property: ${e.message}")
-//                }
-//        }
 
         property.id?.let { propertyId ->
             // Reference to the property in the Realtime Database
@@ -179,6 +120,5 @@ class PropertyViewModel : ViewModel() {
                 }
         }
     }
-
 
 }

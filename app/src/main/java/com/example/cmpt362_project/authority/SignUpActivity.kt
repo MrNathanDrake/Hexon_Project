@@ -18,7 +18,7 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 观察注册状态
+        // Observe registration status
         authViewModel.authStatus.observe(this, Observer { status ->
             when (status) {
                 is AuthStatus.Success -> navigateToSignIn()
@@ -27,7 +27,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         })
 
-        // sign in click
+        // Sign in click
         binding.textView.setOnClickListener {
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)

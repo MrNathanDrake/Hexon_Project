@@ -101,27 +101,11 @@ class AddPropertyFragment : Fragment() {
                 Toast.makeText(requireContext(), "Invalid postal code. Please enter a valid postal code (e.g., A1A 1A1).", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-//            val availableDate = binding.availableDateEditText.text.toString()
-//            if (availableDate.isEmpty()) {
-//                Toast.makeText(requireContext(), "Please select an available date.", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
 
             if (missingFields.isNotEmpty()) {
                 showMissingInfoDialog(missingFields)
                 return@setOnClickListener
             }
-
-//            val squareFootage = binding.squareFootageEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
-//            val rent = binding.rentEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
-//            val houseKind = binding.houseKindSpinner.selectedItem.toString().takeIf {
-//                it.isNotEmpty() && it != "Select House Kind"
-//            } ?: run {
-//                Toast.makeText(requireContext(), "Please select a house kind.", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//            val bedrooms = binding.bedroomsEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
-//            val baths = binding.bathsEditText.text.toString().takeIf { it.isNotEmpty() } ?: ""
 
             val hasPet = binding.petEdit.isChecked
             val hasAc = binding.acEdit.isChecked

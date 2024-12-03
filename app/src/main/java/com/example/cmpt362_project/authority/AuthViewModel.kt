@@ -14,11 +14,9 @@ class AuthViewModel : ViewModel() {
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var mDbRef: DatabaseReference
 
-    // 登录和注册状态的 LiveData
     private val _authStatus = MutableLiveData<AuthStatus>()
     val authStatus: LiveData<AuthStatus> get() = _authStatus
 
-    // 登录方法
     fun signIn(email: String, password: String) {
         if (email.isEmpty() || password.isEmpty()) {
             _authStatus.value = AuthStatus.Error("Empty Fields Are Not Allowed!")
@@ -35,7 +33,7 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    // sign up function
+    // Sign up function
     fun signUp(name: String ,email: String, password: String, confirmPassword: String) {
         if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             _authStatus.value = AuthStatus.Error("Empty Fields Are Not Allowed!")
@@ -65,21 +63,20 @@ class AuthViewModel : ViewModel() {
 
     }
 
-    // 检查是否已登录
+    // Check if you are logged in
     fun isUserLoggedIn(): Boolean {
         return firebaseAuth.currentUser != null
     }
 
-    // 清除状态
     fun clearStatus() {
         _authStatus.value = AuthStatus.Idle
     }
 
 }
 
-// 认证状态封装类
+// Authentication Status Class
 sealed class AuthStatus {
-    object Idle : AuthStatus()                // 初始状态 (initial or neutral state)
-    object Success : AuthStatus()             // 成功状态 (Successful operation state)
-    data class Error(val message: String) : AuthStatus()  // 错误状态 (Error state with a message)
+    object Idle : AuthStatus()                // Initial state
+    object Success : AuthStatus()             // Successful operation state
+    data class Error(val message: String) : AuthStatus()  // Error state with a message
 }

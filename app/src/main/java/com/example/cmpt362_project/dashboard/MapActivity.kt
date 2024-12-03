@@ -32,10 +32,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.map)
 
-        // 接收从 DashboardFragment 传递的邮政编码列表
         val locationDataList = intent.getParcelableArrayListExtra<LocationData>("locations") ?: emptyList()
 
-        // 设置工具栏
         val toolbar: Toolbar = findViewById(R.id.mapToolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
